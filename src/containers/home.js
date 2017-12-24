@@ -3,12 +3,36 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 //componentes
+import LinksCategorias from '../componentes/linksCategorias'
+
 
 class Home extends Component {
 
+  constructor() {
+    super();
+
+    this.state = {
+      categorias:[]
+    }
+
+  }
+
+  /**
+   * pegar as categorias
+   */
+  componentDidMount() {
+
+  }
+
+
+
   render() {
     return (
-      <h1>ddfffffffffffffdd</h1>
+      <div>
+      <LinksCategorias />
+
+      <h1>home</h1>
+      </div>
     )
 
 
