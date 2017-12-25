@@ -31,15 +31,17 @@ class Home extends Component {
     { headers: { 'Authorization': 'whatever-you-want' }})
     .then((response) => {
       if(response.ok) {
-        //console.log(response)
+        //console.log('entrou no ok: ',response.json())
        // let temp = response.json();
-       let temp = response.data
-        return temp
+       //let temp = response.data
+       // return temp
+       //por o resultado do fetch no store
+       this.props.inserirCategorias(response.json());
       } else {
         console.log('erro', response.statusText)
       }
     })
-console.log(objetoResposta);
+//console.log(objetoResposta);
 //console.log(objetoResposta.headers);
 
 //por o resultado do fetch no store

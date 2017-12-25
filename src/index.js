@@ -6,19 +6,31 @@ import registerServiceWorker from './registerServiceWorker';
 //router
 import { BrowserRouter } from 'react-router-dom';
 //redux
-import { createStore } from 'redux';
+import { createStore,applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 //importa o agrupador de reducers
 import MeusReducers from './reducers/index'
 
+const logger = store => next => action => {
+  console.group(action.type);
+  console.info('dispatching', action);
+  let result = next(action);
+  console.log('next state', store.getState());
+  console.groupEnd(action.type);
+  return result;
+};
 
-ReactDOM.render((
-  <Provider store={createStore(MeusReducers,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )}>
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(MeusReducers, composeEnhancers(applyMiddleware(thunk, logger)));
+
+ReactDOM.render(
+  <Provider store={store}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </Provider>
-), document.getElementById('root'));
+  </Provider>,
+  document.getElementById('root')
+);
 registerServiceWorker();
