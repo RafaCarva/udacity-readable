@@ -9,6 +9,10 @@ export default function (state = getInitialState, action) {
         ...state,
         categorias: {}
       }
+      case 'INSERIR-CATEGORIAS':
+      return {
+        categorias:action.payload
+      }
       default: return state
   }
 }
