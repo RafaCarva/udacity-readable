@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 //componentes
-import LinksCategorias from '../componentes/linksCategorias'
+//import LinksCategorias from '../componentes/linksCategorias'
+import { Link } from 'react-router-dom'
 
 class redux extends Component {
-   constructor(props){
+   /*constructor(props){
       super(props);
-   }
+   }*/
 
    render() {
       return (
         <div>
-      <LinksCategorias />
+<Link to="/"> Voltar</Link>
 
       <h1>redux</h1>
       </div>
