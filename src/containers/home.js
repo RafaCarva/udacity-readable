@@ -58,9 +58,11 @@ class Home extends Component {
     
     return (
       <div>
+        <h2>Categorias</h2>
         <LinksCategorias categorias={categorias} />
-        <h1>home</h1>
+        <h2>Posts</h2>
         <Posts posts={posts} />
+        <h2>Inserir Post</h2>
       </div>
     );
   }
