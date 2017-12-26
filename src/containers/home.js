@@ -5,6 +5,7 @@ import {inserirCategorias} from '../actions/actionCategorias'
 import { Link } from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import axios from 'axios'
 //api
 //import API from '../utils/api'
 //componentes
@@ -27,29 +28,20 @@ class Home extends Component {
    */
   componentDidMount() {
 
-  let objetoResposta = fetch('http://localhost:3001/categories', 
-    { headers: { 'Authorization': 'whatever-you-want' }})
-    .then((response) => {
-      if(response.ok) {
-        //console.log('entrou no ok: ',response.json())
-       // let temp = response.json();
-       //let temp = response.data
-       // return temp
-       //por o resultado do fetch no store
-       this.props.inserirCategorias(response.json());
-      } else {
-        console.log('erro', response.statusText)
-      }
-    })
-//console.log(objetoResposta);
-//console.log(objetoResposta.headers);
+  axios.get('http://localhost:3001/categories', 
+  { headers: { 'Authorization': 'whatever-you-want' }})
+  .then((response) => {
+    console.log('dddddddd',response.data);
+    this.props.inserirCategorias(response.data);
 
-//por o resultado do fetch no store
-//this.props.inserirCategorias(objetoResposta);
+  })
+.catch(error=>{
+    this.setState({exibirLoading:false});
+    console.log("ERRO");
+    console.log(error);
+})
 
-
-
-  }
+}
 
 
 
