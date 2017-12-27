@@ -7,11 +7,13 @@ import {Link} from 'react-router-dom';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import serializeForm from 'form-serialize'
 //api
 //import API from '../utils/api'
 //componentes
 import LinksCategorias from '../componentes/linksCategorias';
-import Posts from '../componentes/post'
+import Posts from '../componentes/post';
+import FormularioPostagem from '../componentes/formularioPostagem';
 
 class Home extends Component {
   constructor () {
@@ -51,6 +53,17 @@ class Home extends Component {
 
   } //componentDidMount
 
+  formularioPostagemSubmit = (e) =>{
+    e.preventDefault();
+    
+    const valoresInputs = serializeForm(e.target,{hash:true})
+    console.log("FORM",valoresInputs);
+
+
+  }
+
+
+
   render () {
     const {categorias} = this.props;
     const {posts} = this.props;
@@ -63,6 +76,11 @@ class Home extends Component {
         <h2>Posts</h2>
         <Posts posts={posts} />
         <h2>Inserir Post</h2>
+        <FormularioPostagem 
+          categorias={categorias}
+          formSubmit={this.formularioPostagemSubmit} 
+        />
+
       </div>
     );
   }
