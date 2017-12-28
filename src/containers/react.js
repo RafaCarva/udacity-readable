@@ -1,22 +1,35 @@
 import React, { Component } from 'react';
 //componentes
-//import LinksCategorias from '../componentes/linksCategorias'
-import { Link } from 'react-router-dom'
+import Posts from '../componentes/post';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 class react extends Component {
-   /*constructor(props){
+ constructor(props){
       super(props);
-   }*/
-
-   render() {
-      return (
-        <div>
-<Link to="/"> Voltar</Link>
-
-      <h1>react</h1>
-      </div>
-      );
    }
+
+   render () {
+    const {posts} = this.props;
+    const seletorDePosts = posts.filter (item => item.category === 'react');
+
+    console.log (seletorDePosts);
+
+    return (
+      <div>
+        <Link to="/"> Voltar</Link>
+        <h1>react</h1>
+        <Posts posts={seletorDePosts} />
+      </div>
+    );
+  }
 }
 
-export default react;
+function mapStateToProps (state) {
+  return {
+    ...state.ReducerCategorias,
+    ...state.ReducerPosts,
+    ...state,
+  };
+}
+export default connect (mapStateToProps)(react);

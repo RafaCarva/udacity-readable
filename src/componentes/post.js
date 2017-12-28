@@ -7,7 +7,11 @@ const post = props => {
       {posts.map ((link, key) => (
         <li>
           {/*<p>id:{link.id}</p>*/}
-          <p>titulo:{link.title}</p>
+          titulo:{link.title}
+          <br />
+          category:{link.category}
+
+          
         </li>
       ))}
     </ul>
