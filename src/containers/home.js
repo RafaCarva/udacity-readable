@@ -66,12 +66,6 @@ class Home extends Component {
     const postagem = valoresInputs.postagem;
     const categoria = valoresInputs.categoria;
 
-    console.log ('dados-------');
-    console.log ('dataID', dataId);
-    console.log ('autor', autor);
-    console.log ('postagem', postagem);
-    console.log ('categoria', valoresInputs.categoria);
-
     //console.log("FORM",valoresInputs)
     //{ nome: "zé", titulo: "titulo da postagem marota", postagem: "mensagem marota", categoria: "redux" }
 
