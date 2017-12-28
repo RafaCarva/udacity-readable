@@ -1,26 +1,44 @@
 import React, {Component} from 'react';
 //componentes
 import Posts from '../componentes/post';
-//import LinksCategorias from '../componentes/linksCategorias'
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import axios from 'axios';
 
 class redux extends Component {
   constructor (props) {
     super (props);
+    this.state={
+      seletorDePosts:[]
+    }
   }
-
+  componentDidMount(){
+    
+        axios
+        .get ('http://localhost:3001/posts', {
+          headers: {Authorization: 'whatever-you-want'},
+        })
+        .then (response => {
+          let temp = response.data;
+          let temp2 = temp.filter (item => item.category === 'redux');
+          this.setState(
+            {seletorDePosts:temp2}
+          );
+   
+    
+        })
+        .catch (error => {
+          console.log ('ERRO', error);
+        });
+    
+       }
   render () {
-    const {posts} = this.props;
-    const seletorDePosts = posts.filter (item => item.category === 'redux');
-
-    console.log (seletorDePosts);
-
+   
     return (
       <div>
         <Link to="/"> Voltar</Link>
         <h1>redux</h1>
-        <Posts posts={seletorDePosts} />
+        <Posts posts={this.state.seletorDePosts} />
       </div>
     );
   }
