@@ -5,13 +5,11 @@ const post = props => {
   return (
     <ul>
       {posts.map ((link, key) => (
-        <li>
+        <li key={key}>
           {/*<p>id:{link.id}</p>*/}
           titulo:{link.title}
           <br />
           category:{link.category}
-
-          
         </li>
       ))}
     </ul>

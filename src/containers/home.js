@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {inserirCategorias} from '../actions/actionCategorias';
 import {inserirPosts} from '../actions/actionPosts';
 //libs
-import {Link} from 'react-router-dom';
+//import {Link} from 'react-router-dom';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import axios from 'axios';
