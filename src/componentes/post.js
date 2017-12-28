@@ -9,7 +9,8 @@ console.log("uuuu",posts);
         
         <li>
         {console.log('foi')}
-            <p>id:{link.id}</p>
+            {/*<p>id:{link.id}</p>*/}
+            <p>titulo:{link.title}</p>
           </li>
         ))
       }

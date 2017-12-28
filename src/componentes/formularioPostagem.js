@@ -6,6 +6,7 @@ const formularioPostagem = props => {
   return (
     <form onSubmit={props.formSubmit}>
       <input type="text" name="nome" placeholder="Nome" /><br />
+      <input type="text" name="titulo" placeholder="titulo" /><br />
       <input type="text" name="postagem" placeholder="postagem" /><br />
       <select name="categoria"><br />
         {categorias.categories
