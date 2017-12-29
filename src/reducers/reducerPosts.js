@@ -8,6 +8,9 @@ export default function (state = getInitialState, action) {
       return {
         posts:action.payload
       }
+     
       default: return state
   }
 }
+
+

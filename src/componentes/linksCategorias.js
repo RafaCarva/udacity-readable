@@ -9,7 +9,7 @@ const linksCategorias = props => {
   return(
     <ul>      
       {categorias.categories ? 
-        categorias.categories.map((link,key)=>(<li ><Link to={`/${link.path}`} key={key}>{link.name}</Link></li>))
+        categorias.categories.map((link,key)=>(<li key={key}><Link to={`/${link.path}`} key={key}>{link.name}</Link></li>))
         :""}
       </ul>
   )

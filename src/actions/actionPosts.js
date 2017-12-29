@@ -4,3 +4,10 @@ export function inserirPosts(e){
       payload:e
     }
 }
+
+export function deletarPosts(e){
+  return{
+      type:'DELETAR-POSTS',
+      payload:e
+    }
+}

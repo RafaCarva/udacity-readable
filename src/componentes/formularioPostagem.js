@@ -12,7 +12,7 @@ const formularioPostagem = props => {
       <select name="categoria">
         {categorias.categories
           ? categorias.categories.map ((link, key) => (
-              <option>{link.name}</option>
+              <option key={key}>{link.name}</option>
             ))
           : ''}
 
