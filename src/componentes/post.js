@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import './post.css'
 
 const post = props => {
   const {posts} = props;
@@ -23,9 +24,9 @@ const post = props => {
   }
 
   return (
-    <ul>
+    <ul className="postLista">
       {posts.map ((link, key) => (
-        <li key={key}>
+        <li key={key} className="postContainer">
           {/*<p>id:{link.id}</p>*/}
           titulo:{link.title}
           <br />

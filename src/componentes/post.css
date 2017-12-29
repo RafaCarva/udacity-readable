@@ -1,0 +1,8 @@
+.postLista{
+  list-style: none;
+}
+
+.postContainer{
+  border-style: solid;
+  border-width: 1px;
+}
