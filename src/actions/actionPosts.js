@@ -11,12 +11,12 @@ export function inserirPosts(e){
 export function deletarPosts(e){
   return{
       type:'DELETAR-POSTS',
-      payload:e
+      payload:e.data
     }
 }
 
 export function actionAlterarScore(e){
-  console.log('actionAlterarScore foi executado',e.data)
+  //console.log('actionAlterarScore foi executado',e.data)
   return{
     type:'ALTERAR-SCORE',
     payload:e.data

@@ -11,25 +11,29 @@ import './post.css'
 const post = props => {
   const {posts} = props;
 
-  const excluirPost = id => {
+  const excluirPost = async(id) => {
 
-    axios
+    let chamarApi = axios
     .delete ('http://localhost:3001/posts/'+id, {
       headers: {
         Authorization: 'whatever-you-want'
       },
     })
     .then (response => {
-      console.log("post id:",id," deletado!");
+     //console.log("post id:",id," deletado!");
+     return response
     })
     .catch (error => {
       console.log ('ERRO no delete do post', error);
     });
 
-  }
+    //chamar a action
+    props.deletarPosts( await chamarApi);
+
+  }//excluirPost
 
   const alterarScore = async(id,acao) =>{
-    let a =  axios
+    let chamarApi =  axios
     .post ('http://localhost:3001/posts/'+id, {
       headers: {
         Authorization: 'whatever-you-want'
@@ -39,7 +43,6 @@ const post = props => {
     .then (response => {
       //console.log("alterarScore -> response ",response);
       //agora que o score foi alterado na api, altere ele aqui no store
-
       return response
 
     })
@@ -47,10 +50,8 @@ const post = props => {
       console.log ('ERRO no alterarScore', error);
     });
 
-    //await a;
-
-    //chamar a action
-    props.actionAlterarScore(await a);
+     //chamar a action
+    props.actionAlterarScore(await chamarApi);
 
   }//alterarScore
   
