@@ -8,6 +8,11 @@ export default function (state = getInitialState, action) {
       return {
         posts:action.payload
       }
+
+      case 'ALTERAR-SCORE':
+      return{
+        
+      }
      
       default: return state
   }

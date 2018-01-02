@@ -11,3 +11,10 @@ export function deletarPosts(e){
       payload:e
     }
 }
+
+export function actionAlterarScore(e){
+  return{
+    type:'ALTERAR-SCORE',
+    payload:e
+  }
+}
