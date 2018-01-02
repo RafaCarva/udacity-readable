@@ -1,21 +1,24 @@
 const getInitialState = {
-  posts: []
-}
+  posts: [],
+};
 
 export default function (state = getInitialState, action) {
   switch (action.type) {
-      case 'INSERIR-POSTS':
+    case 'INSERIR-POSTS':
       return {
-        posts:action.payload
-      }
+        posts: action.payload,
+      };
 
-      case 'ALTERAR-SCORE':
-      return{
-        
-      }
-     
-      default: return state
+    case 'ALTERAR-SCORE':{
+    console.log('dddd')
+      return {
+        posts: [
+          ...state.posts.filter((elem, index, arr) => elem.id !== action.payload.id),
+          action.payload,
+        ],
+      };}
+
+    default:
+      return state;
   }
 }
-
-

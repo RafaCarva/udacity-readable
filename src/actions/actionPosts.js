@@ -16,8 +16,9 @@ export function deletarPosts(e){
 }
 
 export function actionAlterarScore(e){
+  console.log('actionAlterarScore foi executado',e.data)
   return{
     type:'ALTERAR-SCORE',
-    payload:e
+    payload:e.data
   }
 }

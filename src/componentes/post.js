@@ -4,7 +4,7 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { deletarPosts } from '../actions/actionPosts'
+import { deletarPosts,actionAlterarScore } from '../actions/actionPosts'
 
 import './post.css'
 
@@ -37,7 +37,7 @@ const post = props => {
         option:acao
     })
     .then (response => {
-      console.log("alterarScore -> response ",response);
+      //console.log("alterarScore -> response ",response);
       //agora que o score foi alterado na api, altere ele aqui no store
 
       return response
@@ -47,11 +47,12 @@ const post = props => {
       console.log ('ERRO no alterarScore', error);
     });
 
-    await a;
+    //await a;
+
+    //chamar a action
+    props.actionAlterarScore(await a);
 
   }//alterarScore
-
-
   
 
 
@@ -67,7 +68,6 @@ const post = props => {
           score:{link.voteScore}
           <button onClick={() => alterarScore (link.id,"upVote")}>+</button>
           <button onClick={() => alterarScore (link.id,"downVote")}>-</button>
-
           <br />
           <button onClick={() => excluirPost (link.id)}>deletar post</button>
 
@@ -76,4 +76,19 @@ const post = props => {
     </ul>
   );
 };
-export default post;
+
+function mapStateToProps(state){
+  return{
+  ...state.ReducerPosts,
+  ...state}
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    deletarPosts,
+    actionAlterarScore,
+  },
+  dispatch
+);
+
+export default connect (mapStateToProps, mapDispatchToProps)(post);
