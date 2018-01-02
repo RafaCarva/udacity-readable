@@ -5,6 +5,9 @@ export function inserirPosts(e){
     }
 }
 
+/**
+ * (e) vai ser o ID 
+ */
 export function deletarPosts(e){
   return{
       type:'DELETAR-POSTS',
