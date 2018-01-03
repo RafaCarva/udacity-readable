@@ -6,19 +6,17 @@ import reactPage from '../containers/react';
 import reduxPage from '../containers/redux';
 import udacityPage from '../containers/udacity';
 import postDetalhado from '../componentes/postDetalhado';
+import categoria from '../containers/categoria'
 
 export default props => (
   <Switch>
     <Route exact path="/" component={Home} />
 
-    <Route exact path="/react" component={reactPage} />
-    <Route path="/react/:id" component={postDetalhado} />
+    <Route exact path="/:categoria" component={categoria} />
 
-    <Route exact path="/redux" component={reduxPage} />
-    <Route path="/redux/:id" component={postDetalhado} />
 
-    <Route exact path="/udacity" component={udacityPage} />
-    <Route path="/udacity/:id" component={postDetalhado} />
+    <Route path="/:categoria/:id" component={postDetalhado} />
+
 
   </Switch>
 );
