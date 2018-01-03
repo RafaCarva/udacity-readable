@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
+import {Link} from 'react-router-dom'
 import { deletarPosts,actionAlterarScore } from '../actions/actionPosts'
 
 import './post.css'
@@ -54,7 +54,7 @@ const post = props => {
     props.actionAlterarScore(await chamarApi);
 
   }//alterarScore
-  
+
 
 
   return (
@@ -62,7 +62,8 @@ const post = props => {
       {posts.map ((link, key) => (
         <li key={key} className="postContainer">
           {/*<p>id:{link.id}</p>*/}
-          titulo:{link.title}
+          titulo:
+          <Link to={`/${link.category}/${link.id}`} >{link.title}</Link>
           <br />
           category:{link.category}
           <br />
@@ -79,8 +80,7 @@ const post = props => {
 };
 
 function mapStateToProps(state){
-  return{
-  ...state}
+  return{...state}
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators(

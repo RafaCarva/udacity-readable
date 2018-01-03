@@ -25,7 +25,6 @@ class react extends Component {
           this.setState(
             {seletorDePosts:temp2}
           );   
-          console.log('WWWWWWWWWWWWWWW',temp2);
         })
         .catch (error => {
           console.log ('ERRO', error);
