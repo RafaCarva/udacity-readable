@@ -13,8 +13,8 @@ class react extends Component {
       }
    }
 
-   componentDidMount(){
-    
+   componentDidMount(){    
+    console.log('react.js > componentDidMount')
         axios
         .get ('http://localhost:3001/posts', {
           headers: {Authorization: 'whatever-you-want'},
@@ -24,18 +24,15 @@ class react extends Component {
           let temp2 = temp.filter (item => item.category === 'react');
           this.setState(
             {seletorDePosts:temp2}
-          );
-   
-    
+          );   
+          console.log('WWWWWWWWWWWWWWW',temp2);
         })
         .catch (error => {
           console.log ('ERRO', error);
         });
-    
        }
 
    render () {
-
 
     return (
       <div>

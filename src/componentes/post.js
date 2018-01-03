@@ -80,7 +80,6 @@ const post = props => {
 
 function mapStateToProps(state){
   return{
-  ...state.ReducerPosts,
   ...state}
 }
 
