@@ -35,7 +35,7 @@ class postDetalhado extends Component {
 
   render() {
 
-  console.log('render()-> this.state.post->',this.state.post);
+  console.log('render()-> this.state.post->',this.state.posts);
     //const {posts} = this.state.post;
     //console.log('{posts}->',posts);
     return (
@@ -43,7 +43,7 @@ class postDetalhado extends Component {
 
 
         <h1>post detalhado</h1>
-       {/* <Post posts={} /> */}
+       <Post posts={[this.state.posts]} />
       </div>
     );
   }
