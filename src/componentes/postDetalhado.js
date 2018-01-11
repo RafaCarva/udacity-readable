@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Post from './post'
 import axios from 'axios';
+import Comentarios from './comentarios';
 
 class postDetalhado extends Component {
 
@@ -25,7 +26,7 @@ class postDetalhado extends Component {
         headers: { Authorization: 'whatever-you-want' },
       })
       .then(response => {
-        console.log('then(response ->', response.data);
+       // console.log('then(response ->', response.data);
 
         //por o post no state
         this.setState({ posts: response.data });
@@ -35,7 +36,7 @@ class postDetalhado extends Component {
 
   render() {
 
-  console.log('render()-> this.state.post->',this.state.posts);
+  //console.log('render()-> this.state.post->',this.state.posts);
     //const {posts} = this.state.post;
     //console.log('{posts}->',posts);
     return (
@@ -44,6 +45,7 @@ class postDetalhado extends Component {
 
         <h1>post detalhado</h1>
        <Post posts={[this.state.posts]} />
+       <Comentarios id={this.state.id} />
       </div>
     );
   }
