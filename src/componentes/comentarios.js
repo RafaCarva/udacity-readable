@@ -25,7 +25,7 @@ componentDidMount(){
         headers: { Authorization: 'whatever-you-want' },
       })
       .then(response => {
-        //console.log('then(response ->', response.data);
+        console.log('then(response ->', response.data);
         //setar o objeto de comentários no state
         this.setState({ comentarios: response.data });
       })
@@ -60,3 +60,14 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(comentarios);
 
+/*
+:
+author:"thingtwo"
+body:"Hi there! I am a COMMENT."
+deleted:false
+id:"894tuq4ut84ut8v4t8wun89g"
+parentDeleted:false
+parentId:"8xf0y6ziyjabvozdd253nd"
+timestamp:1468166872634
+voteScore:6
+*/

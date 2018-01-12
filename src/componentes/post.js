@@ -3,13 +3,16 @@ import axios from 'axios';
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { deletarPosts, actionAlterarScore } from '../actions/actionPosts'
+import { Link, withRouter } from 'react-router-dom'
+import { deletarPosts, actionAlterarScore} from '../actions/actionPosts'
+import {actionEditarPost} from '../actions/actionEditarPost'
+
 
 import './post.css'
 
 const post = props => {
   const { posts } = props;
+
 
   const excluirPost = async (id) => {
 
@@ -41,7 +44,7 @@ const post = props => {
         option: acao
       })
       .then(response => {
-        //console.log("alterarScore -> response ",response);
+        console.log("alterarScore -> response ", response);
         //agora que o score foi alterado na api, altere ele aqui no store
         return response
 
@@ -55,26 +58,34 @@ const post = props => {
 
   }//alterarScore
 
+  const editarPost = async (id) => {
+    props.actionEditarPost(id);
+    props.history.push(await '/editarPost');
 
+
+  }//editarPost
 
   return (
     <ul className="postLista">
       {posts.map((link, key) => (
         <li key={key} className="postContainer">
+
           {/*<p>id:{link.id}</p>*/}
-          Titulo:<Link to={`/${link.category}/${link.id}`} >{link.title}</Link>
-          <br />
-          Categoria:{link.category}
-          <br />
-          Mensagem:{link.body}
-          <br />
+          Titulo:<Link to={`/${link.category}/${link.id}`} >{link.title}</Link><br />
+          Autor:{link.author}<br />
+          Categoria:{link.category}<br />
+          Mensagem:{link.body}<br />
+          Nº de comentários:{link.commentCount}<br />
           score:{link.voteScore}
           <button onClick={() => alterarScore(link.id, "upVote")}>+</button>
-          <button onClick={() => alterarScore(link.id, "downVote")}>-</button>
-          <br />
+          <button onClick={() => alterarScore(link.id, "downVote")}>-</button><br />
           <button onClick={() => excluirPost(link.id)}>deletar post</button>
+          <br />
+          <button onClick={() => editarPost(link.id)}>editar post</button>
+
 
         </li>
+
       ))}
     </ul>
   );
@@ -88,8 +99,24 @@ const mapDispatchToProps = dispatch => bindActionCreators(
   {
     deletarPosts,
     actionAlterarScore,
+    actionEditarPost,
   },
   dispatch
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(post);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(post));
+
+
+/**
+ * :
+author:"thingtwo"
+body:"Everyone says so after all."
+category:"react"
+commentCount:2
+deleted:false
+id:"8xf0y6ziyjabvozdd253nd"
+timestamp:1467166872634
+title:"Udacity is the best place to learn React"
+voteScore:6
+*/
