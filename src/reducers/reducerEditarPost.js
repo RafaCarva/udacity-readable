@@ -10,6 +10,11 @@ export default function (state = getInitialState, action) {
              editarPost: action.payload
       };
 
+      case 'LIMPAR-EDITAR-POST':
+      return{...state,
+             editarPost: ''
+      };
+
     default:
       return state;
   }

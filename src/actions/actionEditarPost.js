@@ -5,3 +5,9 @@ export function actionEditarPost(e){
     }
 }
 
+export function actionLimparEditarPost(){
+  return{
+      type:'LIMPAR-EDITAR-POST'
+    }
+}
+

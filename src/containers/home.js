@@ -39,13 +39,14 @@ class Home extends Component {
         console.log ('ERRO', error);
       });
 
-    // pegar os posts
+    // pegar os posts da api e por no store
+    console.log('GET na API *****************');
     axios
     .get ('http://localhost:3001/posts', {
       headers: {Authorization: 'whatever-you-want'},
     })
     .then (response => {
-      //console.log('array de categorias: ',response.data);
+      //console.log('data : ',response.data);
       this.props.inserirPosts (response.data);
     })
     .catch (error => {

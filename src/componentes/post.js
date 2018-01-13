@@ -63,11 +63,10 @@ const post = props => {
     props.actionEditarPost(id);
     props.history.push('/editarPost');
 
-
-
   }//editarPost
 
   return (
+ 
     <ul className="postLista">
       {posts.map((link, key) => (
         <li key={key} className="postContainer">
@@ -84,12 +83,12 @@ const post = props => {
           <button onClick={() => excluirPost(link.id)}>deletar post</button>
           <br />
           <button onClick={() => editarPost(link.id)}>editar post</button>
-         {/* <Link to={'/editarPost'} >editar post</Link><br />*/}
 
         </li>
 
       ))}
     </ul>
+
   );
 };
 
