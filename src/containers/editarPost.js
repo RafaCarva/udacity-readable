@@ -1,39 +1,29 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+//import axios from 'axios';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {  Link, withRouter} from 'react-router-dom'
-import { deletarPosts, actionAlterarScore } from '../actions/actionPosts'
+import { deletarPosts } from '../actions/actionPosts'
 
 
 class editarPost extends Component {
 
+/*
   constructor(props) {
     super(props);
 
 
-  }//constructor
-
+  }
+*/
 
   render() {
 
-
-    const editarPost = () => {
-
-
-      //depoisd e editar, encaminha o cara para algum lugar
-      //this.props.history.push('/detalhesDaConsulta');
-
-
-    }//editarPost
-
     return (
       <span>
-        dfdfdfd
-  </span>
-    )//return
+        <h2>dddd</h2>
+      </span>
+    );//return
   }//render
-};
+}//class
 
 function mapStateToProps(state) {
   return { ...state }
@@ -46,8 +36,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
   dispatch
 );
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(editarPost));
+export default connect(mapStateToProps, mapDispatchToProps)(editarPost)
 
 
 /**

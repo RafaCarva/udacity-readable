@@ -6,7 +6,7 @@ export default function (state = getInitialState, action) {
   switch (action.type) {
 
     case 'EDITAR-POST':
-      return{
+      return{...state,
              editarPost: action.payload
       };
 

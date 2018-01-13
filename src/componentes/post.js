@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import axios from 'axios';
 
 import { bindActionCreators } from 'redux'
@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import { deletarPosts, actionAlterarScore} from '../actions/actionPosts'
 import {actionEditarPost} from '../actions/actionEditarPost'
+
 
 
 import './post.css'
@@ -58,9 +59,10 @@ const post = props => {
 
   }//alterarScore
 
-  const editarPost = async (id) => {
+  const editarPost = (id) => {
     props.actionEditarPost(id);
-    props.history.push(await '/editarPost');
+    props.history.push('/editarPost');
+
 
 
   }//editarPost
@@ -82,7 +84,7 @@ const post = props => {
           <button onClick={() => excluirPost(link.id)}>deletar post</button>
           <br />
           <button onClick={() => editarPost(link.id)}>editar post</button>
-
+         {/* <Link to={'/editarPost'} >editar post</Link><br />*/}
 
         </li>
 

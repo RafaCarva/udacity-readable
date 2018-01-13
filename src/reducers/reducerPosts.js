@@ -1,6 +1,6 @@
 const getInitialState = {
   posts: [],
-  editarPost:''
+ // editarPost:''
 };
 
 export default function (state = getInitialState, action) {

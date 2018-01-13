@@ -7,6 +7,7 @@ import axios from 'axios';
 
 class categoria extends Component {
   constructor(props) {
+    console.log('categoria construtor')
     super(props);
     this.state = {
       seletorDePosts: []
@@ -19,7 +20,7 @@ class categoria extends Component {
       })
       .then(response => {
         let temp = response.data;
-        let temp2 = temp.filter(item => item.category == this.props.ReducerCategorias.categoriaAtual);
+        let temp2 = temp.filter(item => item.category === this.props.ReducerCategorias.categoriaAtual);
         this.setState(
           { seletorDePosts: temp2 }
         );
