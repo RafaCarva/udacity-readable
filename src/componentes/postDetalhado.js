@@ -6,6 +6,8 @@ import Comentarios from './comentarios';
 import {Link,withRouter} from 'react-router-dom';
 import { inserirPostDetalhado } from '../actions/actionPosts'
 import { bindActionCreators } from 'redux'
+import { PulseLoader } from 'halogenium';
+
 
 class postDetalhado extends Component {
 
@@ -86,10 +88,10 @@ class postDetalhado extends Component {
   render() {
     return (
       <div>
-
+        {this.props.ReducerPosts.postSendoVisualizado
+          ?
+<div>
        <h1>post detalhado</h1>
-     {/*  <Post posts={[this.state.posts]} /> */}
-
        <Post posts={[this.props.ReducerPosts.postSendoVisualizado]} />
        <Comentarios id={this.state.id} /> 
 
@@ -99,6 +101,12 @@ class postDetalhado extends Component {
           <button type="submit">Gravar Post</button>
         </form>
 
+        </div>
+:
+<div>
+<PulseLoader color="#26A65B" size="16px" margin="4px" />
+  </div>
+        }
        <Link to="/">Voltar</Link>
       </div>
     );

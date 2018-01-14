@@ -25,6 +25,6 @@ export function actionAlterarScore(e){
   //console.log('actionAlterarScore foi executado',e.data)
   return{
     type:'ALTERAR-SCORE',
-    payload:e.data
+    payload:e
   }
 }

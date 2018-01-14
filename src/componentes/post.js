@@ -4,7 +4,7 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { deletarPosts, actionAlterarScore } from '../actions/actionPosts'
+import { deletarPosts, actionAlterarScore,inserirPostDetalhado } from '../actions/actionPosts'
 import { actionEditarPost } from '../actions/actionEditarPost'
 import { PulseLoader } from 'halogenium';
 
@@ -20,9 +20,7 @@ const post = props => {
 
     let chamarApi = axios
       .delete('http://localhost:3001/posts/' + id, {
-        headers: {
-          Authorization: 'whatever-you-want'
-        },
+        headers: { Authorization: 'whatever-you-want' },
       })
       .then(response => {
         //console.log("post id:",id," deletado!");
@@ -37,7 +35,7 @@ const post = props => {
 
   }//excluirPost
 
-  const alterarScore = async (id, acao) => {
+  const alterarScore = (id, acao) => {
     let chamarApi = axios
       .post('http://localhost:3001/posts/' + id, {
         headers: {
@@ -46,18 +44,14 @@ const post = props => {
         option: acao
       })
       .then(response => {
-        console.log("alterarScore -> response ", response);
-        //agora que o score foi alterado na api, altere ele aqui no store
-        return response
+        //alterar o score no store
+        props.inserirPostDetalhado(response.data);
+        props.actionAlterarScore(response.data)
 
       })
       .catch(error => {
         console.log('ERRO no alterarScore', error);
       });
-
-    //chamar a action
-    props.actionAlterarScore(await chamarApi);
-
   }//alterarScore
 
   const editarPost = (id) => {
@@ -66,13 +60,11 @@ const post = props => {
 
   }//editarPost
 
-
   return (
     <div>
- 
-
         <ul className="postLista">
           {posts.map((link, key) => (
+
             <li key={key} className="postContainer">
               Titulo:<Link to={`/${link.category}/${link.id}`} >{link.title}</Link><br />
               Autor:{link.author}<br />
@@ -88,8 +80,6 @@ const post = props => {
           ))}
         </ul>
 
-  
-
     </div>
   );//return
 };
@@ -103,6 +93,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     deletarPosts,
     actionAlterarScore,
     actionEditarPost,
+    inserirPostDetalhado
   },
   dispatch
 );

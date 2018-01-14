@@ -6,7 +6,7 @@ export default function (state = getInitialState, action) {
   switch (action.type) {
     case 'DELETAR-COMENTARIO':
       return {
-        //...state,
+        ...state,
         todosComentarios:[...state.todosComentarios.filter(
           (elem, index, arr)=>elem.id !== action.payload.id
         )]
