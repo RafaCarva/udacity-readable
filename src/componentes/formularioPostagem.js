@@ -6,9 +6,9 @@ const formularioPostagem = props => {
   return (
     <div>
     <form onSubmit={props.formSubmit}>
-      <input type="text" name="nome" placeholder="Nome" />
-      <input type="text" name="titulo" placeholder="titulo" />
-      <input type="text" name="postagem" placeholder="postagem" />
+      <input type="text" name="nome" placeholder="Nome" /><br />
+      <input type="text" name="titulo" placeholder="titulo" /><br />
+      <input type="text" name="postagem" placeholder="postagem" /><br />
       <select name="categoria">
         {categorias.categories
           ? categorias.categories.map ((link, key) => (
@@ -16,7 +16,7 @@ const formularioPostagem = props => {
             ))
           : ''}
 
-      </select>
+      </select><br />
       <button>Enviar Postagem</button>
 
     </form>

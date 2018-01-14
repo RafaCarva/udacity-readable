@@ -35,9 +35,10 @@ class react extends Component {
 
     return (
       <div>
-        <Link to="/"> Voltar</Link>
+        
         <h1>react</h1>
         <Posts posts={this.state.seletorDePosts} />
+        <Link to="/"> Voltar</Link>
       </div>
     );
   }

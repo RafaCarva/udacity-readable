@@ -4,16 +4,17 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { deletarPosts, actionAlterarScore} from '../actions/actionPosts'
-import {actionEditarPost} from '../actions/actionEditarPost'
-
-
+import { deletarPosts, actionAlterarScore } from '../actions/actionPosts'
+import { actionEditarPost } from '../actions/actionEditarPost'
+import { PulseLoader } from 'halogenium';
 
 import './post.css'
 
 const post = props => {
-  const { posts } = props;
-
+  //console.log('---', this.props.ReducerPosts.todosPosts.length)
+  //console.log('************', props)
+  const {posts} = props;
+ // console.log('************', posts)
 
   const excluirPost = async (id) => {
 
@@ -65,31 +66,32 @@ const post = props => {
 
   }//editarPost
 
+
   return (
+    <div>
  
-    <ul className="postLista">
-      {posts.map((link, key) => (
-        <li key={key} className="postContainer">
 
-          {/*<p>id:{link.id}</p>*/}
-          Titulo:<Link to={`/${link.category}/${link.id}`} >{link.title}</Link><br />
-          Autor:{link.author}<br />
-          Categoria:{link.category}<br />
-          Mensagem:{link.body}<br />
-          Nº de comentários:{link.commentCount}<br />
-          score:{link.voteScore}
-          <button onClick={() => alterarScore(link.id, "upVote")}>+</button>
-          <button onClick={() => alterarScore(link.id, "downVote")}>-</button><br />
-          <button onClick={() => excluirPost(link.id)}>deletar post</button>
-          <br />
-          <button onClick={() => editarPost(link.id)}>editar post</button>
+        <ul className="postLista">
+          {posts.map((link, key) => (
+            <li key={key} className="postContainer">
+              Titulo:<Link to={`/${link.category}/${link.id}`} >{link.title}</Link><br />
+              Autor:{link.author}<br />
+              Categoria:{link.category}<br />
+              Mensagem:{link.body}<br />
+              Nº de comentários:{link.commentCount}<br />
+              score:{link.voteScore}
+              <button onClick={() => alterarScore(link.id, "upVote")}>+</button>
+              <button onClick={() => alterarScore(link.id, "downVote")}>-</button><br />
+              <button onClick={() => excluirPost(link.id)}>deletar post</button><br />
+              <button onClick={() => editarPost(link.id)}>editar post</button>
+            </li>
+          ))}
+        </ul>
 
-        </li>
+  
 
-      ))}
-    </ul>
-
-  );
+    </div>
+  );//return
 };
 
 function mapStateToProps(state) {
@@ -110,6 +112,8 @@ export default withRouter(
 
 
 /**
+ * 
+ *       {this.posts.map((link, key) => ( 
  * :
 author:"thingtwo"
 body:"Everyone says so after all."

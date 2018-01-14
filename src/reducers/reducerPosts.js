@@ -1,20 +1,26 @@
 const getInitialState = {
-  posts: [],
+  todosPosts: {},
  // editarPost:''
+ postSendoVisualizado:[]
 };
 
 export default function (state = getInitialState, action) {
   switch (action.type) {
 
+    case 'INSERIR-POST-DETALHADO':
+    return {
+      postSendoVisualizado: action.payload,
+    };
+
       case 'INSERIR-POSTS':
-      return {
-        posts: action.payload,
+      return {...state,
+        todosPosts: action.payload,
       };
 
       case 'DELETAR-POSTS':
       return{
-        posts: [
-          ...state.posts.filter (
+        todosPosts: [
+          ...state.todosPosts.filter (
             (elem, index, arr) => elem.id !== action.payload.id)
         ]
       }
@@ -25,8 +31,8 @@ export default function (state = getInitialState, action) {
         id = o do payload (que seria o post antigo)
         em seguida ele recebe o post do paylod (que é o atual)
         */
-        posts: [
-          ...state.posts.filter (
+        todosPosts: [
+          ...state.todosPosts.filter (
             (elem, index, arr) => elem.id !== action.payload.id
           ),
           action.payload,

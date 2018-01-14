@@ -4,6 +4,12 @@ export function inserirPosts(e){
       payload:e
     }
 }
+export function inserirPostDetalhado(e){
+  return{
+      type:'INSERIR-POST-DETALHADO',
+      payload:e
+    }
+}
 
 /**
  * (e) vai ser o ID 

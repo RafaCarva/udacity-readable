@@ -1,64 +1,97 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
+import { inserirComentarios, limparComentarios, deletarComentario } from '../actions/actionComentarios'
+import { bindActionCreators } from 'redux'
 
 class comentarios extends Component {
 
-constructor(props){
-  super(props);
+  constructor(props) {
+    super(props);
 
-  this.state={
-    postId:'',
-    comentarios:[]
+    this.state = {
+      postId: this.props.id,
+    }
   }
-}
 
-componentWillMount() {
-  //recuperar o id que foi enviado via props
-  this.setState({ postId:this.props.id });
-}
-
-componentDidMount(){
-  axios
-  .get(`http://localhost:3001/posts/${this.state.postId}/comments`, {
+  componentWillMount() {
+    //Pegar todos os comentários da api.
+    axios
+      .get(`http://localhost:3001/posts/${this.state.postId}/comments`, {
         headers: { Authorization: 'whatever-you-want' },
       })
       .then(response => {
-        console.log('then(response ->', response.data);
-        //setar o objeto de comentários no state
-        this.setState({ comentarios: response.data });
-      })
-      .catch(error => { console.log('ERRO', error); });
-}
+        console.log('response de pegar todos os comentários ->', response.data)
 
-render(){
-  return (
-    <div>
-      <h3>Comentários</h3>
-      <ul>
-        {this.state.comentarios.map((item,key)=>(
-          <li key={key}>
-            Autor: {item.author}<br />
-            Comentário: {item.body}<br />
-            Score: {item.voteScore}
-          </li>
-        ))
+        //setar o objeto de comentários vindo da api no STORE
+        this.props.inserirComentarios(response.data)
 
-        }
-      </ul>
-      <Link to={'/'}>Voltar</Link>
-    </div>
-  );
-}
-}
+      }).catch(error => { console.log('ERRO sobre comentários', error); })
+  }
 
+  componentDidMount() {
+
+
+  }
+
+  /**
+   * Limpar o 'todosComentarios' da store
+   */
+  componentWillUnmount() {
+    this.props.limparComentarios();
+  }
+
+
+  render() {
+
+    const excluirComentario = async (id) => {
+
+      let chamarAction = axios
+        .delete('http://localhost:3001/comments/' + id, {
+          headers: { Authorization: 'whatever-you-want' },
+        })
+        .then(response => {
+          console.log("COMENTÁRIO id:", id, " deletado!");
+          return id
+        })
+        .catch(error => {
+          console.log('ERRO no delete do post', error);
+        });
+
+      //chamar a action para deletar na store também
+      this.props.deletarComentario(chamarAction);
+
+    }//excluirComentario
+
+    return (
+      <div>
+        <h3>Comentários</h3>
+        <ul>
+          {this.props.ReducerComentarios.todosComentarios.map((item, key) => (
+            <li key={key}>
+              Autor: {item.author}<br />
+              Comentário: {item.body}<br />
+              Score: {item.voteScore}
+              <button >+</button>
+              <button >-</button><br />
+              <button onClick={() => excluirComentario(item.id)}>deletar comentário</button>
+            </li>
+          ))
+          }
+        </ul>
+      </div>
+    );
+  }
+}
 
 function mapStateToProps(state) {
   return { ...state }
 }
-
-export default connect(mapStateToProps)(comentarios);
+const mapDispatchToProps = dispatch => bindActionCreators(
+  { inserirComentarios, limparComentarios, deletarComentario }, dispatch
+);
+export default connect(mapStateToProps, mapDispatchToProps)(comentarios);
 
 /*
 :
