@@ -6,6 +6,10 @@ export function deletarComentario(e){
   return{type:'DELETAR-COMENTARIO',payload:e}
 }
 
+export function alterarVotoComentario(e){
+  return{type:'ALTERAR-VOTO-COMENTARIO',payload:e}
+}
+
 export function limparComentarios(){
   return{type:'LIMPAR-COMENTARIOS'}
 }

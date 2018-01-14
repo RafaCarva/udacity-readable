@@ -5,6 +5,7 @@ import axios from 'axios';
 import Comentarios from './comentarios';
 import {Link,withRouter} from 'react-router-dom';
 import { inserirPostDetalhado } from '../actions/actionPosts'
+import {inserirComentarios}from '../actions/actionComentarios'
 import { bindActionCreators } from 'redux'
 import { PulseLoader } from 'halogenium';
 
@@ -15,10 +16,9 @@ class postDetalhado extends Component {
     super(props);
     this.state = {
       id: '',
-      //posts: [],
       autorComentario:'',
       msgComentario:'',
-      teste:''
+
 
     }
   }
@@ -29,13 +29,10 @@ class postDetalhado extends Component {
 
   componentDidMount() {
     // pegar o post
-    axios
-      .get(`http://localhost:3001/posts/${this.state.id}`, {
+    axios.get(`http://localhost:3001/posts/${this.state.id}`, {
         headers: { Authorization: 'whatever-you-want' },
       })
       .then(response => {
-        //por o post no state
-        //this.setState({ posts: response.data });
 
         //por o post no store
         this.props.inserirPostDetalhado(response.data)
@@ -56,8 +53,7 @@ class postDetalhado extends Component {
     e.preventDefault();
    
     //gravar o comentário novo na api
-    axios
-      .post('http://localhost:3001/comments', {
+    axios.post('http://localhost:3001/comments', {
         headers: { Authorization: 'whatever-you-want' },
 
         id: Date.now(),
@@ -67,14 +63,10 @@ class postDetalhado extends Component {
         parentId: this.state.id,
       })
       .then(response => {
+        //gravar comentário no store
+        console.log('COMETARIOS',response.data);
+//this.props.inserirComentarios(response)
 
-        //limpar o state, chamando o actionLimparPost
-        //console.log('eeeeee',response.data)
-        //this.props.actionLimparEditarPost();
-        //this.setState({teste:'dddddddddd'})
-       //console.log('***********************',response.data)
-        //props.history.push('/editarPost');
-        //this.props.history.push(`/${this.state.posts.category}/${this.state.posts.id}`);
       })
       .catch(error => {
         console.log('ERRO ao cadastrar comentário', error);
@@ -116,7 +108,8 @@ class postDetalhado extends Component {
 function mapStateToProps(state) { return { ...state } }
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-  {inserirPostDetalhado},dispatch
+  {inserirPostDetalhado,
+    inserirComentarios},dispatch
 );
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(postDetalhado));
 

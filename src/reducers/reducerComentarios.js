@@ -8,8 +8,15 @@ export default function (state = getInitialState, action) {
       return {
         ...state,
         todosComentarios:[...state.todosComentarios.filter(
-          (elem, index, arr)=>elem.id !== action.payload.id
+          (elem, index, arr)=>elem.id !== action.payload
         )]
+      }
+      case 'ALTERAR-VOTO-COMENTARIO':
+      return {
+        ...state,
+        todosComentarios:[...state.todosComentarios.filter(
+          (elem, index, arr)=>elem.id !== action.payload.id
+        ), action.payload]
       }
       case 'INSERIR-COMENTARIOS':
       return {...state,

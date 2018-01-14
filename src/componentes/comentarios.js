@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 //import { Link } from 'react-router-dom'
-import { inserirComentarios, limparComentarios, deletarComentario } from '../actions/actionComentarios'
+import { inserirComentarios, limparComentarios, deletarComentario, alterarVotoComentario } from '../actions/actionComentarios'
 import { bindActionCreators } from 'redux'
 
 class comentarios extends Component {
@@ -16,9 +16,12 @@ class comentarios extends Component {
   }
 
   componentWillMount() {
-    //Pegar todos os comentários da api.
-    axios
-      .get(`http://localhost:3001/posts/${this.state.postId}/comments`, {
+   
+  }
+
+  componentDidMount() {
+ //Pegar todos os comentários da postagem = id a api.
+    axios.get(`http://localhost:3001/posts/${this.state.postId}/comments`, {
         headers: { Authorization: 'whatever-you-want' },
       })
       .then(response => {
@@ -28,10 +31,6 @@ class comentarios extends Component {
         this.props.inserirComentarios(response.data)
 
       }).catch(error => { console.log('ERRO sobre comentários', error); })
-  }
-
-  componentDidMount() {
-
 
   }
 
@@ -45,24 +44,40 @@ class comentarios extends Component {
 
   render() {
 
-    const excluirComentario = async (id) => {
+    const excluirComentario = (id) => {
 
-      let chamarAction = axios
-        .delete('http://localhost:3001/comments/' + id, {
+     axios.delete('http://localhost:3001/comments/' + id, {
           headers: { Authorization: 'whatever-you-want' },
         })
         .then(response => {
           console.log("COMENTÁRIO id:", id, " deletado!");
-          return id
+         //chamar a action para deletar na store também
+          this.props.deletarComentario(id);
         })
         .catch(error => {
           console.log('ERRO no delete do post', error);
         });
 
-      //chamar a action para deletar na store também
-      this.props.deletarComentario(chamarAction);
+      
 
     }//excluirComentario
+
+const votarComentario=(id,acao)=>{
+  //gravar o score na api
+  axios.post(`http://localhost:3001/comments/${id}`, {
+    headers: {Authorization: 'whatever-you-want'},
+    option: acao
+  })
+  .then(response => {
+    console.log('resposta do voto no cometario', response.data)
+    //alterar o score no store
+    this.props.alterarVotoComentario(response.data)
+  })
+  .catch(error => {
+    console.log('ERRO no alterarScore', error);
+  });
+}//votarComentario
+
 
     return (
       <div>
@@ -73,8 +88,9 @@ class comentarios extends Component {
               Autor: {item.author}<br />
               Comentário: {item.body}<br />
               Score: {item.voteScore}
-              <button >+</button>
-              <button >-</button><br />
+<br />
+              <button onClick={() => votarComentario(item.id, "upVote")}>+</button>
+              <button onClick={() => votarComentario(item.id, "downVote")}>-</button><br />
               <button onClick={() => excluirComentario(item.id)}>deletar comentário</button>
             </li>
           ))
@@ -89,7 +105,7 @@ function mapStateToProps(state) {
   return { ...state }
 }
 const mapDispatchToProps = dispatch => bindActionCreators(
-  { inserirComentarios, limparComentarios, deletarComentario }, dispatch
+  { inserirComentarios, limparComentarios, deletarComentario,alterarVotoComentario }, dispatch
 );
 export default connect(mapStateToProps, mapDispatchToProps)(comentarios);
 
