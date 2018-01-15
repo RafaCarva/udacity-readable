@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 //import { Link } from 'react-router-dom'
-import { inserirComentarios, limparComentarios, deletarComentario, alterarVotoComentario } from '../actions/actionComentarios'
+import { inserirComentarios, limparComentarios, deletarComentario, alterarVotoComentario,inserirComentarioAlterado } from '../actions/actionComentarios'
 import { bindActionCreators } from 'redux'
 import { PulseLoader } from 'halogenium';
 
@@ -14,6 +14,10 @@ class comentarios extends Component {
 
     this.state = {
       postId: this.props.id,
+      mostrarEditarComentario: false,
+      comentarioEditado:'',
+      comentarioEditadoId:''
+
     }
   }
 
@@ -43,6 +47,35 @@ class comentarios extends Component {
     this.props.limparComentarios();
   }
 
+
+  alterouComentario(e){
+    this.setState({comentarioEditado:e.target.value});
+  }
+
+  gravarComentarioAlterado(e) {
+    e.preventDefault();
+    console.log('ADEUS Dolores',this.state.comentarioEditado);
+    console.log('ADEUS Dolores',this.state.comentarioEditadoId);
+    axios
+    .put(`http://localhost:3001/comments/${this.state.comentarioEditadoId}`, {
+      headers: { Authorization: 'whatever-you-want' },
+      timestamp: Date.now(),
+      body: this.state.comentarioEditado
+    })
+    .then(response => {
+      //limpar o state local
+
+     // console.log('id do post', this.state.postId);
+      //console.log('data: ',response.data)
+this.props.inserirComentarioAlterado(response.data)
+      
+    })
+    .catch(error => {
+      console.log('ERRO', error);
+    });
+
+
+  }//gravarComentarioAlterado
 
   render() {
 
@@ -80,6 +113,12 @@ class comentarios extends Component {
         });
     }//votarComentario
 
+    const editarComentario =(id)=>{
+      this.setState({mostrarEditarComentario: !this.state.mostrarEditarComentario});
+
+      this.setState({comentarioEditadoId:id});
+    }
+
 
     return (
       <div>
@@ -92,18 +131,37 @@ class comentarios extends Component {
               <li key={key}>
                 Autor: {item.author}<br />
                 Comentário: {item.body}<br />
-                Score: {item.voteScore}<br />
+                Score: {item.voteScore}
                 <button onClick={() => votarComentario(item.id, "upVote")}>+</button>
                 <button onClick={() => votarComentario(item.id, "downVote")}>-</button><br />
+                <button onClick={() => editarComentario(item.id)}>editar comentário</button><br />
                 <button onClick={() => excluirComentario(item.id)}>deletar comentário</button>
+
+                <span>
+                  {this.state.mostrarEditarComentario
+                  ?
+                  <span>
+                    <form onSubmit={this.gravarComentarioAlterado.bind(this)}>
+                      novo comentário:<input type='text' value={this.state.comentarioEditado} onChange={this.alterouComentario.bind(this)} />
+                      <button type='submit'>salvar</button>
+                    </form>
+                  </span>
+                  :
+                  <span>
+                  </span>
+                  }
+                </span>
+
+
               </li>
             ))
             }
           </ul>
         </div>
         :
-
-        <div><PulseLoader color="#26A65B" size="16px" margin="4px" />
+        <div>
+          
+        {/*  <PulseLoader color="#26A65B" size="16px" margin="4px" /> */}
         </div>
         }
       </div>
@@ -115,7 +173,7 @@ function mapStateToProps(state) {
   return { ...state }
 }
 const mapDispatchToProps = dispatch => bindActionCreators(
-  { inserirComentarios, limparComentarios, deletarComentario, alterarVotoComentario }, dispatch
+  { inserirComentarios, limparComentarios, deletarComentario, alterarVotoComentario,inserirComentarioAlterado }, dispatch
 );
 export default connect(mapStateToProps, mapDispatchToProps)(comentarios);
 

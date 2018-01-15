@@ -4,6 +4,9 @@ export function inserirComentarios(e){
 export function inserirNovoComentarios(e){
   return{type:'INSERIR-NOVO-COMENTARIOS',payload:e}
 }
+export function inserirComentarioAlterado(e){
+  return{type:'INSERIR-COMENTARIO-ALTERADO',payload:e}
+}
 
 export function deletarComentario(e){
   return{type:'DELETAR-COMENTARIO',payload:e}
@@ -16,3 +19,5 @@ export function alterarVotoComentario(e){
 export function limparComentarios(){
   return{type:'LIMPAR-COMENTARIOS'}
 }
+
+
