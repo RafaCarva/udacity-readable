@@ -64,10 +64,13 @@ class comentarios extends Component {
     })
     .then(response => {
       //limpar o state local
-
      // console.log('id do post', this.state.postId);
       //console.log('data: ',response.data)
 this.props.inserirComentarioAlterado(response.data)
+//limpar o state
+this.setState({mostrarEditarComentario:false});
+this.setState({comentarioEditado:''});
+this.setState({comentarioEditadoId:''})
       
     })
     .catch(error => {
@@ -88,6 +91,7 @@ this.props.inserirComentarioAlterado(response.data)
           console.log("COMENTÁRIO id:", id, " deletado!");
           //chamar a action para deletar na store também
           this.props.deletarComentario(id);
+          
         })
         .catch(error => {
           console.log('ERRO no delete do post', error);
@@ -136,7 +140,6 @@ this.props.inserirComentarioAlterado(response.data)
                 <button onClick={() => votarComentario(item.id, "downVote")}>-</button><br />
                 <button onClick={() => editarComentario(item.id)}>editar comentário</button><br />
                 <button onClick={() => excluirComentario(item.id)}>deletar comentário</button>
-
                 <span>
                   {this.state.mostrarEditarComentario
                   ?
