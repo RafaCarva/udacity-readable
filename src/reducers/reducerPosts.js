@@ -1,30 +1,29 @@
 const getInitialState = {
   todosPosts: {},
- // editarPost:''
- postSendoVisualizado:[]
+  postSendoVisualizado: []
 };
 
 export default function (state = getInitialState, action) {
   switch (action.type) {
 
     case 'INSERIR-POST-DETALHADO':
-    return {...state,
-      postSendoVisualizado: action.payload,
-    };
-
-      case 'INSERIR-POSTS':
-      return {...state,
+      return {
+        ...state,
+        postSendoVisualizado: action.payload,
+      };
+    case 'INSERIR-POSTS':
+      return {
+        ...state,
         todosPosts: action.payload,
       };
-
-      case 'DELETAR-POSTS':
-      return{...state,
+    case 'DELETAR-POSTS':
+      return {
+        ...state,
         todosPosts: [
-          ...state.todosPosts.filter (
+          ...state.todosPosts.filter(
             (elem, index, arr) => elem.id !== action.payload.id)
         ]
       }
-
     case 'ALTERAR-SCORE': {
       return {
         /*posts recebe seus prórpios post's menos o post do 
@@ -33,18 +32,18 @@ export default function (state = getInitialState, action) {
         */
         ...state,
         todosPosts: [
-          ...state.todosPosts.filter (
+          ...state.todosPosts.filter(
             (elem, index, arr) => elem.id !== action.payload.id
           ),
           action.payload,
         ],
       };
     }
-
     case 'LISTAR-MAIOR-SCORE':
-      return{...state,
+      return {
+        ...state,
         todosPosts: [
-          ...state.todosPosts.sort( (a, b) => {
+          ...state.todosPosts.sort((a, b) => {
             if (a.voteScore > b.voteScore) {
               return 1;
             }
@@ -53,14 +52,14 @@ export default function (state = getInitialState, action) {
             }
             // a must be equal to b
             return 0;
-          } )
+          })
         ]
       }
-
     case 'LISTAR-MENOR-SCORE':
-      return{...state,
+      return {
+        ...state,
         todosPosts: [
-          ...state.todosPosts.sort( (a, b) => {
+          ...state.todosPosts.sort((a, b) => {
             if (a.voteScore < b.voteScore) {
               return 1;
             }
@@ -69,14 +68,14 @@ export default function (state = getInitialState, action) {
             }
             // a must be equal to b
             return 0;
-          } )
+          })
         ]
       }
-
-      case 'LISTAR-MAIS-NOVA':
-      return{...state,
+    case 'LISTAR-MAIS-NOVA':
+      return {
+        ...state,
         todosPosts: [
-          ...state.todosPosts.sort( (a, b) => {
+          ...state.todosPosts.sort((a, b) => {
             if (a.timestamp < b.timestamp) {
               return 1;
             }
@@ -85,13 +84,14 @@ export default function (state = getInitialState, action) {
             }
             // a must be equal to b
             return 0;
-          } )
+          })
         ]
       }
-      case 'LISTAR-MAIS-VELHA':
-      return{...state,
+    case 'LISTAR-MAIS-VELHA':
+      return {
+        ...state,
         todosPosts: [
-          ...state.todosPosts.sort( (a, b) => {
+          ...state.todosPosts.sort((a, b) => {
             if (a.timestamp > b.timestamp) {
               return 1;
             }
@@ -100,11 +100,9 @@ export default function (state = getInitialState, action) {
             }
             // a must be equal to b
             return 0;
-          } )
+          })
         ]
       }
-
-
     default:
       return state;
   }

@@ -3,13 +3,10 @@ import React, { Component } from 'react';
 import { inserirCategorias } from '../actions/actionCategorias';
 import { inserirPosts } from '../actions/actionPosts';
 //libs
-//import {Link} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import serializeForm from 'form-serialize';
-//api
-//import API from '../utils/api'
 //componentes
 import LinksCategorias from '../componentes/linksCategorias';
 import Posts from '../componentes/post';
@@ -23,7 +20,6 @@ class Home extends Component {
     axios.defaults.headers.common['Authorization'] = 'whatever-you-want';
 
     this.state = {
-      //categorias:[],
       posts: [],
     };
   }
@@ -31,44 +27,29 @@ class Home extends Component {
   componentDidMount() {
     console.log('componentWillMount() foi executado')
 
-   // pegar as categorias da api
-    axios.get ('http://localhost:3001/categories', {
-        headers: {Authorization: 'whatever-you-want'},
+    // pegar as categorias da api
+    axios.get('http://localhost:3001/categories', {
+      headers: { Authorization: 'whatever-you-want' },
+    })
+      .then(response => {
+        this.props.inserirCategorias(response.data);
       })
-      .then (response => {
-        //console.log('response:',response.data)
-        //return response.data
-        this.props.inserirCategorias (response.data);
-      })
-      .catch (error => {
-        console.log ('ERRO', error);
+      .catch(error => {
+        console.log('ERRO', error);
       });
-
-//console.log('categoriasApi:',categoriasApi)
-
-
 
     // pegar os posts da api e por no store
     axios.get('http://localhost:3001/posts', {
       headers: { Authorization: 'whatever-you-want' },
     })
       .then(response => {
-
         //gravar os posts no store
         this.props.inserirPosts(response.data);
       })
       .catch(error => {
         console.log('ERRO', error);
       });
-
-
-    //console.log(this.props.ReducerPosts.todosPosts)
-
-
   } //componentDidMount
-
-
-
 
   formularioPostagemSubmit = e => {
     e.preventDefault();
@@ -79,9 +60,6 @@ class Home extends Component {
     const titulo = valoresInputs.titulo;
     const postagem = valoresInputs.postagem;
     const categoria = valoresInputs.categoria;
-
-    //console.log("FORM",valoresInputs)
-    //{ nome: "zé", titulo: "titulo da postagem marota", postagem: "mensagem marota", categoria: "redux" }
 
     //gravar a postagem
     axios
@@ -113,8 +91,6 @@ class Home extends Component {
   };
 
   render() {
-    //const {categorias} = this.props;
-    //const {posts} = this.props;
 
     console.log('render() foi executado')
     console.log('store posts', this.props.ReducerPosts.todosPosts)
@@ -123,7 +99,6 @@ class Home extends Component {
       <div>
         {this.props.ReducerPosts.todosPosts.length
           ?
-          
           <div>
             <h2>Categorias</h2>
             <LinksCategorias categorias={this.props.ReducerCategorias.categorias} />

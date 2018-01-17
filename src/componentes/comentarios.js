@@ -2,27 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 //import { Link } from 'react-router-dom'
-import { inserirComentarios, limparComentarios, deletarComentario, alterarVotoComentario,inserirComentarioAlterado } from '../actions/actionComentarios'
+import {
+  inserirComentarios,
+  limparComentarios,
+  deletarComentario,
+  alterarVotoComentario,
+  inserirComentarioAlterado
+} from '../actions/actionComentarios'
 import { bindActionCreators } from 'redux'
-import { PulseLoader } from 'halogenium';
-
 
 class comentarios extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       postId: this.props.id,
       mostrarEditarComentario: false,
-      comentarioEditado:'',
-      comentarioEditadoId:''
-
+      comentarioEditado: '',
+      comentarioEditadoId: ''
     }
-  }
-
-  componentWillMount() {
-
   }
 
   componentDidMount() {
@@ -32,14 +30,11 @@ class comentarios extends Component {
     })
       .then(response => {
         console.log('response de pegar todos os comentários ->', response.data)
-
         //setar o objeto de comentários vindo da api no STORE
         this.props.inserirComentarios(response.data)
 
       }).catch(error => { console.log('ERRO sobre comentários', error); })
-
   }
-
   /**
    * Limpar o 'todosComentarios' da store
    */
@@ -47,41 +42,31 @@ class comentarios extends Component {
     this.props.limparComentarios();
   }
 
-
-  alterouComentario(e){
-    this.setState({comentarioEditado:e.target.value});
+  alterouComentario(e) {
+    this.setState({ comentarioEditado: e.target.value });
   }
 
   gravarComentarioAlterado(e) {
     e.preventDefault();
-    console.log('ADEUS Dolores',this.state.comentarioEditado);
-    console.log('ADEUS Dolores',this.state.comentarioEditadoId);
     axios
-    .put(`http://localhost:3001/comments/${this.state.comentarioEditadoId}`, {
-      headers: { Authorization: 'whatever-you-want' },
-      timestamp: Date.now(),
-      body: this.state.comentarioEditado
-    })
-    .then(response => {
-      //limpar o state local
-     // console.log('id do post', this.state.postId);
-      //console.log('data: ',response.data)
-this.props.inserirComentarioAlterado(response.data)
-//limpar o state
-this.setState({mostrarEditarComentario:false});
-this.setState({comentarioEditado:''});
-this.setState({comentarioEditadoId:''})
-      
-    })
-    .catch(error => {
-      console.log('ERRO', error);
-    });
-
-
+      .put(`http://localhost:3001/comments/${this.state.comentarioEditadoId}`, {
+        headers: { Authorization: 'whatever-you-want' },
+        timestamp: Date.now(),
+        body: this.state.comentarioEditado
+      })
+      .then(response => {
+        this.props.inserirComentarioAlterado(response.data)
+        //limpar o state
+        this.setState({ mostrarEditarComentario: false });
+        this.setState({ comentarioEditado: '' });
+        this.setState({ comentarioEditadoId: '' })
+      })
+      .catch(error => {
+        console.log('ERRO', error);
+      });
   }//gravarComentarioAlterado
 
   render() {
-
     const excluirComentario = (id) => {
 
       axios.delete('http://localhost:3001/comments/' + id, {
@@ -91,13 +76,10 @@ this.setState({comentarioEditadoId:''})
           console.log("COMENTÁRIO id:", id, " deletado!");
           //chamar a action para deletar na store também
           this.props.deletarComentario(id);
-          
         })
         .catch(error => {
           console.log('ERRO no delete do post', error);
         });
-
-
 
     }//excluirComentario
 
@@ -117,55 +99,49 @@ this.setState({comentarioEditadoId:''})
         });
     }//votarComentario
 
-    const editarComentario =(id)=>{
-      this.setState({mostrarEditarComentario: !this.state.mostrarEditarComentario});
-
-      this.setState({comentarioEditadoId:id});
+    const editarComentario = (id) => {
+      this.setState({ mostrarEditarComentario: !this.state.mostrarEditarComentario });
+      this.setState({ comentarioEditadoId: id });
     }
-
 
     return (
       <div>
         {this.props.ReducerComentarios.todosComentarios.length
-        ?
-        <div>
-          <h3>Comentários</h3>
-          <ul>
-            {this.props.ReducerComentarios.todosComentarios.map((item, key) => (
-              <li key={key}>
-                Autor: {item.author}<br />
-                Comentário: {item.body}<br />
-                Score: {item.voteScore}
-                <button onClick={() => votarComentario(item.id, "upVote")}>+</button>
-                <button onClick={() => votarComentario(item.id, "downVote")}>-</button><br />
-                <button onClick={() => editarComentario(item.id)}>editar comentário</button><br />
-                <button onClick={() => excluirComentario(item.id)}>deletar comentário</button>
-                <span>
-                  {this.state.mostrarEditarComentario
-                  ?
+          ?
+          <div>
+            <h3>Comentários</h3>
+            <ul>
+              {this.props.ReducerComentarios.todosComentarios.map((item, key) => (
+                <li key={key}>
+                  Autor: {item.author}<br />
+                  Comentário: {item.body}<br />
+                  Score: {item.voteScore}
+                  <button onClick={() => votarComentario(item.id, "upVote")}>+</button>
+                  <button onClick={() => votarComentario(item.id, "downVote")}>-</button><br />
+                  <button onClick={() => editarComentario(item.id)}>editar comentário</button><br />
+                  <button onClick={() => excluirComentario(item.id)}>deletar comentário</button>
                   <span>
-                    <form onSubmit={this.gravarComentarioAlterado.bind(this)}>
-                      novo comentário:<input type='text' value={this.state.comentarioEditado} onChange={this.alterouComentario.bind(this)} />
-                      <button type='submit'>salvar</button>
-                    </form>
+                    {this.state.mostrarEditarComentario
+                      ?
+                      <span>
+                        <form onSubmit={this.gravarComentarioAlterado.bind(this)}>
+                          novo comentário:<input type='text' value={this.state.comentarioEditado} onChange={this.alterouComentario.bind(this)} />
+                          <button type='submit'>salvar</button>
+                        </form>
+                      </span>
+                      :
+                      <span>
+                      </span>
+                    }
                   </span>
-                  :
-                  <span>
-                  </span>
-                  }
-                </span>
-
-
-              </li>
-            ))
-            }
-          </ul>
-        </div>
-        :
-        <div>
-          
-        {/*  <PulseLoader color="#26A65B" size="16px" margin="4px" /> */}
-        </div>
+                </li>
+              ))
+              }
+            </ul>
+          </div>
+          :
+          <div>
+          </div>
         }
       </div>
     );
@@ -176,18 +152,6 @@ function mapStateToProps(state) {
   return { ...state }
 }
 const mapDispatchToProps = dispatch => bindActionCreators(
-  { inserirComentarios, limparComentarios, deletarComentario, alterarVotoComentario,inserirComentarioAlterado }, dispatch
+  { inserirComentarios, limparComentarios, deletarComentario, alterarVotoComentario, inserirComentarioAlterado }, dispatch
 );
 export default connect(mapStateToProps, mapDispatchToProps)(comentarios);
-
-/*
-:
-author:"thingtwo"
-body:"Hi there! I am a COMMENT."
-deleted:false
-id:"894tuq4ut84ut8v4t8wun89g"
-parentDeleted:false
-parentId:"8xf0y6ziyjabvozdd253nd"
-timestamp:1468166872634
-voteScore:6
-*/

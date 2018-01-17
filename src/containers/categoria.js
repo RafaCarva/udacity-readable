@@ -24,12 +24,10 @@ class categoria extends Component {
         this.setState(
           { seletorDePosts: temp2 }
         );
-
       })
       .catch(error => {
         console.log('ERRO', error);
       });
-
   }
   render() {
 
@@ -44,9 +42,7 @@ class categoria extends Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    ...state,
-  };
+  return { ...state };
 }
 
 export default connect(mapStateToProps)(categoria);

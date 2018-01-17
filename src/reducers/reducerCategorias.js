@@ -1,6 +1,6 @@
 const getInitialState = {
   categorias: {},
-  categoriaAtual:''
+  categoriaAtual: ''
 }
 
 export default function (state = getInitialState, action) {
@@ -10,18 +10,16 @@ export default function (state = getInitialState, action) {
         ...state,
         categorias: {}
       }
-      case 'INSERIR-CATEGORIAS':
-      return {...state,
-        categorias:action.payload
-      }
-      case 'SETAR-CATEGORIA-ATUAL':
+    case 'INSERIR-CATEGORIAS':
       return {
         ...state,
-        categoriaAtual:action.payload
+        categorias: action.payload
       }
-
-
-
-      default: return state
+    case 'SETAR-CATEGORIA-ATUAL':
+      return {
+        ...state,
+        categoriaAtual: action.payload
+      }
+    default: return state
   }
 }

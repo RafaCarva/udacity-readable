@@ -24,19 +24,15 @@ class redux extends Component {
           this.setState(
             {seletorDePosts:temp2}
           );
-   
-    
         })
         .catch (error => {
           console.log ('ERRO', error);
         });
-    
        }
   render () {
    
     return (
-      <div>
-        
+      <div>    
         <h1>redux</h1>
         <Posts posts={this.state.seletorDePosts} />
         <Link to="/"> Voltar</Link>

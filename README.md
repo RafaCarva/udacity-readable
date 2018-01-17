@@ -1,3 +1,23 @@
+Para rodar o aplicativo, basta clona-lo, em seguida:
+yarn install
+yarn start
+
+Lib's extras usadas no projeto:
+
+axios
+https://github.com/axios/axios
+
+redux
+https://github.com/reactjs/redux
+
+react-redux
+https://github.com/reactjs/react-redux
+
+halogenium
+https://github.com/kirillDanshin/halogenium
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>

@@ -10,7 +10,6 @@ class editarPost extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       postASerEditado: {},
       idPost: this.props.ReducerEditarPost.editarPost,
@@ -51,7 +50,7 @@ class editarPost extends Component {
   gravarPostAlterado(e) {
     e.preventDefault();
 
-    //gravaar o post novo na api
+    //gravar o post novo na api
     axios
       .put(`http://localhost:3001/posts/${this.state.idPost}`, {
         headers: { Authorization: 'whatever-you-want' },
@@ -89,10 +88,10 @@ class editarPost extends Component {
   }//render
 }//class
 
-function mapStateToProps(state) { return { ...state }}
+function mapStateToProps(state) { return { ...state } }
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-  {actionLimparEditarPost,inserirPosts},dispatch
+  { actionLimparEditarPost, inserirPosts }, dispatch
 );
 
 export default withRouter(

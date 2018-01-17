@@ -4,17 +4,13 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { deletarPosts, actionAlterarScore, inserirPostDetalhado,listarMaiorScore, listarMenorScore, listarMaisNova,listarMaisVelha } from '../actions/actionPosts'
+import { deletarPosts, actionAlterarScore, inserirPostDetalhado, listarMaiorScore, listarMenorScore, listarMaisNova, listarMaisVelha } from '../actions/actionPosts'
 import { actionEditarPost } from '../actions/actionEditarPost'
-import { PulseLoader } from 'halogenium';
-
 import './post.css'
 
 const post = props => {
-  //console.log('---', this.props.ReducerPosts.todosPosts.length)
-  //console.log('************', props)
+
   let { posts } = props;
-  // console.log('************', posts)
 
   const excluirPost = async (id) => {
 
@@ -32,11 +28,10 @@ const post = props => {
 
     //chamar a action
     props.deletarPosts(await chamarApi);
-
   }//excluirPost
 
   const alterarScore = (id, acao) => {
-    let chamarApi = axios
+    axios
       .post('http://localhost:3001/posts/' + id, {
         headers: {
           Authorization: 'whatever-you-want'
@@ -57,30 +52,28 @@ const post = props => {
   const editarPost = (id) => {
     props.actionEditarPost(id);
     props.history.push('/editarPost');
-
   }//editarPost
 
-const filtroDecScore=()=>{
-  props.listarMaiorScore();
-}
-const filtroCreScore=()=>{
-  props.listarMenorScore();
-}
-const filtroMaisNova=()=>{
-  props.listarMaisNova();
-}
-const filtroMaisVelha=()=>{
-  props.listarMaisVelha();
-}
+  const filtroDecScore = () => {
+    props.listarMaiorScore();
+  }
+  const filtroCreScore = () => {
+    props.listarMenorScore();
+  }
+  const filtroMaisNova = () => {
+    props.listarMaisNova();
+  }
+  const filtroMaisVelha = () => {
+    props.listarMaisVelha();
+  }
 
   return (
     <div>
-      
-       Filtrar por
-       <button onClick={() => filtroDecScore()}>-score</button>
-       <button onClick={() => filtroCreScore()}>+score</button>
-       <button onClick={() => filtroMaisNova()}>+nova</button>
-       <button onClick={() => filtroMaisVelha()}>+velha</button>
+      Filtrar por
+      <button onClick={() => filtroDecScore()}>-score</button>
+      <button onClick={() => filtroCreScore()}>+score</button>
+      <button onClick={() => filtroMaisNova()}>+nova</button>
+      <button onClick={() => filtroMaisVelha()}>+velha</button>
 
       <ul className="postLista">
         {posts.map((link, key) => (
@@ -124,19 +117,3 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(post));
-
-
-/**
- * 
- *       {this.posts.map((link, key) => ( 
- * :
-author:"thingtwo"
-body:"Everyone says so after all."
-category:"react"
-commentCount:2
-deleted:false
-id:"8xf0y6ziyjabvozdd253nd"
-timestamp:1467166872634
-title:"Udacity is the best place to learn React"
-voteScore:6
-*/

@@ -4,6 +4,7 @@ export function inserirPosts(e){
       payload:e
     }
 }
+
 export function inserirPostDetalhado(e){
   return{
       type:'INSERIR-POST-DETALHADO',
@@ -26,7 +27,6 @@ export function listarMaisNova(){
 export function listarMaisVelha(){
   return{type:'LISTAR-MAIS-VELHA'}
 }
-
 
 /**
  * (e) vai ser o ID 

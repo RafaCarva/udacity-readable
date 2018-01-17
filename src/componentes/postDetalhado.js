@@ -5,10 +5,9 @@ import axios from 'axios';
 import Comentarios from './comentarios';
 import { Link, withRouter } from 'react-router-dom';
 import { inserirPostDetalhado } from '../actions/actionPosts'
-import { inserirComentarios,inserirNovoComentarios } from '../actions/actionComentarios'
+import { inserirComentarios, inserirNovoComentarios } from '../actions/actionComentarios'
 import { bindActionCreators } from 'redux'
 import { PulseLoader } from 'halogenium';
-
 
 class postDetalhado extends Component {
 
@@ -18,8 +17,6 @@ class postDetalhado extends Component {
       id: '',
       autorComentario: '',
       msgComentario: '',
-
-
     }
   }
 
@@ -33,14 +30,11 @@ class postDetalhado extends Component {
       headers: { Authorization: 'whatever-you-want' },
     })
       .then(response => {
-
         //por o post no store
         this.props.inserirPostDetalhado(response.data)
       })
       .catch(error => { console.log('ERRO', error); });
   }
-
-
 
   alterouAutor(e) {
     this.setState({ autorComentario: e.target.value });
@@ -71,10 +65,6 @@ class postDetalhado extends Component {
       .catch(error => {
         console.log('ERRO ao cadastrar comentário', error);
       });
-
-
-    // this.props.history.push(`/${this.state.posts.category}/${this.state.posts.id}`);
-
   }//gravar post editado
 
   render() {
@@ -92,14 +82,13 @@ class postDetalhado extends Component {
               msg: <input type="text" onChange={this.alterouMsg.bind(this)} /><br />
               <button type="submit">Gravar Comentário</button>
             </form>
-<Link to="/">Voltar</Link>
+            <Link to="/">Voltar</Link>
           </div>
           :
           <div>
             <PulseLoader color="#26A65B" size="16px" margin="4px" />
           </div>
         }
-        
       </div>
     );
   }
