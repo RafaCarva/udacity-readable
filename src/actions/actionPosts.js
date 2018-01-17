@@ -11,6 +11,23 @@ export function inserirPostDetalhado(e){
     }
 }
 
+export function listarMaiorScore(){
+  return{type:'LISTAR-MAIOR-SCORE'}
+}
+
+export function listarMenorScore(){
+  return{type:'LISTAR-MENOR-SCORE'}
+}
+
+export function listarMaisNova(){
+  return{type:'LISTAR-MAIS-NOVA'}
+}
+
+export function listarMaisVelha(){
+  return{type:'LISTAR-MAIS-VELHA'}
+}
+
+
 /**
  * (e) vai ser o ID 
  */

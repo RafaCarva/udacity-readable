@@ -41,6 +41,68 @@ export default function (state = getInitialState, action) {
       };
     }
 
+    case 'LISTAR-MAIOR-SCORE':
+      return{...state,
+        todosPosts: [
+          ...state.todosPosts.sort( (a, b) => {
+            if (a.voteScore > b.voteScore) {
+              return 1;
+            }
+            if (a.voteScore < b.voteScore) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;
+          } )
+        ]
+      }
+
+    case 'LISTAR-MENOR-SCORE':
+      return{...state,
+        todosPosts: [
+          ...state.todosPosts.sort( (a, b) => {
+            if (a.voteScore < b.voteScore) {
+              return 1;
+            }
+            if (a.voteScore > b.voteScore) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;
+          } )
+        ]
+      }
+
+      case 'LISTAR-MAIS-NOVA':
+      return{...state,
+        todosPosts: [
+          ...state.todosPosts.sort( (a, b) => {
+            if (a.timestamp < b.timestamp) {
+              return 1;
+            }
+            if (a.timestamp > b.timestamp) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;
+          } )
+        ]
+      }
+      case 'LISTAR-MAIS-VELHA':
+      return{...state,
+        todosPosts: [
+          ...state.todosPosts.sort( (a, b) => {
+            if (a.timestamp > b.timestamp) {
+              return 1;
+            }
+            if (a.timestamp < b.timestamp) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;
+          } )
+        ]
+      }
 
 
     default:

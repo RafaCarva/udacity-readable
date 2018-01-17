@@ -4,7 +4,7 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { deletarPosts, actionAlterarScore,inserirPostDetalhado } from '../actions/actionPosts'
+import { deletarPosts, actionAlterarScore, inserirPostDetalhado,listarMaiorScore, listarMenorScore, listarMaisNova,listarMaisVelha } from '../actions/actionPosts'
 import { actionEditarPost } from '../actions/actionEditarPost'
 import { PulseLoader } from 'halogenium';
 
@@ -13,8 +13,8 @@ import './post.css'
 const post = props => {
   //console.log('---', this.props.ReducerPosts.todosPosts.length)
   //console.log('************', props)
-  const {posts} = props;
- // console.log('************', posts)
+  let { posts } = props;
+  // console.log('************', posts)
 
   const excluirPost = async (id) => {
 
@@ -60,25 +60,45 @@ const post = props => {
 
   }//editarPost
 
+const filtroDecScore=()=>{
+  props.listarMaiorScore();
+}
+const filtroCreScore=()=>{
+  props.listarMenorScore();
+}
+const filtroMaisNova=()=>{
+  props.listarMaisNova();
+}
+const filtroMaisVelha=()=>{
+  props.listarMaisVelha();
+}
+
   return (
     <div>
-        <ul className="postLista">
-          {posts.map((link, key) => (
+      
+       Filtrar por
+       <button onClick={() => filtroDecScore()}>-score</button>
+       <button onClick={() => filtroCreScore()}>+score</button>
+       <button onClick={() => filtroMaisNova()}>+nova</button>
+       <button onClick={() => filtroMaisVelha()}>+velha</button>
 
-            <li key={key} className="postContainer">
-              Titulo:<Link to={`/${link.category}/${link.id}`} >{link.title}</Link><br />
-              Autor:{link.author}<br />
-              Categoria:{link.category}<br />
-              Mensagem:{link.body}<br />
-              Nº de comentários:{link.commentCount}<br />
-              score:{link.voteScore}
-              <button onClick={() => alterarScore(link.id, "upVote")}>+</button>
-              <button onClick={() => alterarScore(link.id, "downVote")}>-</button><br />
-              <button onClick={() => excluirPost(link.id)}>deletar post</button><br />
-              <button onClick={() => editarPost(link.id)}>editar post</button>
-            </li>
-          ))}
-        </ul>
+      <ul className="postLista">
+        {posts.map((link, key) => (
+
+          <li key={key} className="postContainer">
+            Titulo:<Link to={`/${link.category}/${link.id}`} >{link.title}</Link><br />
+            Autor:{link.author}<br />
+            Categoria:{link.category}<br />
+            Mensagem:{link.body}<br />
+            Nº de comentários:{link.commentCount}<br />
+            score:{link.voteScore}
+            <button onClick={() => alterarScore(link.id, "upVote")}>+</button>
+            <button onClick={() => alterarScore(link.id, "downVote")}>-</button><br />
+            <button onClick={() => excluirPost(link.id)}>deletar post</button><br />
+            <button onClick={() => editarPost(link.id)}>editar post</button>
+          </li>
+        ))}
+      </ul>
 
     </div>
   );//return
@@ -93,7 +113,11 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     deletarPosts,
     actionAlterarScore,
     actionEditarPost,
-    inserirPostDetalhado
+    inserirPostDetalhado,
+    listarMaiorScore,
+    listarMenorScore,
+    listarMaisNova,
+    listarMaisVelha
   },
   dispatch
 );
