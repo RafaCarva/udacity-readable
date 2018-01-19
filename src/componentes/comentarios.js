@@ -9,7 +9,11 @@ import {
   alterarVotoComentario,
   inserirComentarioAlterado
 } from '../actions/actionComentarios'
+import {inserirPostDetalhado} from '../actions/actionPosts'
 import { bindActionCreators } from 'redux'
+
+
+//inserirPostDetalhado
 
 class comentarios extends Component {
 
@@ -76,6 +80,20 @@ class comentarios extends Component {
           console.log("COMENTÁRIO id:", id, " deletado!");
           //chamar a action para deletar na store também
           this.props.deletarComentario(id);
+
+          //depois de deletar o comentário, repopular o store com o post a ser dettalhado
+          //*****
+          axios.get(`http://localhost:3001/posts/${this.state.postId}`, {
+            headers: { Authorization: 'whatever-you-want' },
+          })
+            .then(response => {
+              //por o post no store
+              this.props.inserirPostDetalhado(response.data)
+              //por o post no state
+              //this.setState({postSendoVisualizado:response.data});
+            })
+            .catch(error => { console.log('ERRO', error); });
+
         })
         .catch(error => {
           console.log('ERRO no delete do post', error);
@@ -152,6 +170,6 @@ function mapStateToProps(state) {
   return { ...state }
 }
 const mapDispatchToProps = dispatch => bindActionCreators(
-  { inserirComentarios, limparComentarios, deletarComentario, alterarVotoComentario, inserirComentarioAlterado }, dispatch
+  { inserirComentarios, limparComentarios, deletarComentario, alterarVotoComentario, inserirComentarioAlterado,inserirPostDetalhado }, dispatch
 );
 export default connect(mapStateToProps, mapDispatchToProps)(comentarios);

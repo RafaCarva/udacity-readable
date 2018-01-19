@@ -17,11 +17,14 @@ class postDetalhado extends Component {
       id: '',
       autorComentario: '',
       msgComentario: '',
+      //postSendoVisualizado:''
     }
   }
 
   componentWillMount() {
     this.setState({ id: this.props.match.params.id });
+    //this.setState({ postSendoVisualizado: this.props.ReducerPosts.postSendoVisualizado});
+    //console.log('-------------->',this.state.postSendoVisualizado)
   }
 
   componentDidMount() {
@@ -32,6 +35,9 @@ class postDetalhado extends Component {
       .then(response => {
         //por o post no store
         this.props.inserirPostDetalhado(response.data)
+
+        //por o post no state
+        //this.setState({postSendoVisualizado:response.data});
       })
       .catch(error => { console.log('ERRO', error); });
   }
@@ -54,12 +60,26 @@ class postDetalhado extends Component {
       timestamp: Date.now(),
       body: this.state.autorComentario,
       author: this.state.msgComentario,
-      parentId: this.state.id,
+      parentId: this.state.id
     })
       .then(response => {
-        //gravar comentário no store
+        
         console.log('COMETARIOS', response.data);
+
+        //gravar comentário no store
         this.props.inserirNovoComentarios(response.data)
+        //this.setState({ postSendoVisualizado: response.data });
+
+        //TODO inserir o post no reducer: ReducerPosts > postSendoVisualizado
+
+        axios.get(`http://localhost:3001/posts/${this.state.id}`, {
+          headers: { Authorization: 'whatever-you-want' },
+        })
+          .then(response => {
+            //por o post no store
+            this.props.inserirPostDetalhado(response.data)
+          })
+          .catch(error => { console.log('ERRO', error); });
 
       })
       .catch(error => {
@@ -68,6 +88,7 @@ class postDetalhado extends Component {
   }//gravar post editado
 
   render() {
+    //console.log('-------------->',this.state.postSendoVisualizado)
     return (
       <div>
         {this.props.ReducerComentarios.todosComentarios

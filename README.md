@@ -1,6 +1,12 @@
-Para rodar o aplicativo, basta clona-lo, em seguida:
-yarn install
-yarn start
+A API que o aplicativo consome deve ser baixada aqui:
+https://github.com/udacity/reactnd-project-readable-starter
+
+Para rodar a API entre na raiz do projeto e:
+### node server
+
+Para rodar o aplicativo, basta clona-lo, em seguida:<br>
+### yarn install
+### yarn start
 
 Lib's extras usadas no projeto:
 

@@ -32,7 +32,7 @@ export default function (state = getInitialState, action) {
       case 'INSERIR-NOVO-COMENTARIOS':
       return {...state,
        // todosComentarios : action.payload
-       todosComentarios :[...state.todosComentarios,action.payload] 
+       todosComentarios:[...state.todosComentarios,action.payload] 
       }
 
       case 'LIMPAR-COMENTARIOS':
