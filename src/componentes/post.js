@@ -35,6 +35,7 @@ const post = props => {
 
     //chamar a action
     props.deletarPosts(await chamarApi);
+    props.history.push('/');
   }//excluirPost
 
   const alterarScore = (id, acao) => {
@@ -63,27 +64,10 @@ const post = props => {
     props.history.push('/editarPost');
   }//editarPost
 
-/*
-setarReducerListagem(acao){
-  props.actionSetarOrdenarPost(acao);
-  return true;
-}
-*/
-
   const filtrarPosts=(acao)=>{
     //1° setar o valor no store
     props.actionSetarOrdenarPost(acao);
-  
-    
-    //2º chamar uma action dependendo do valor que foi setado no score
-   /* props.ReducerPosts.ordenarPost === "menor-score" ? props.listarMenorScore() :
-    props.ReducerPosts.ordenarPost === "maior-score" ? props.listarMaiorScore() :
-    props.ReducerPosts.ordenarPost === "mais-nova" ? props.listarMaisNova() :
-    props.ReducerPosts.ordenarPost === "mais-velha" ? props.listarMaisVelha():
-    console.log('***ERRO: ReducerPosts.ordenarPost não tem um valor listavel.')
-  */}
-
-
+}
 
   return (
     <div>
@@ -92,9 +76,9 @@ setarReducerListagem(acao){
       <button onClick={() => filtrarPosts("maior-score")}>maior score</button>
       <button onClick={() => filtrarPosts("mais-nova")}>mais nova</button>
       <button onClick={() => filtrarPosts("mais-velha")}>mais velha</button><br />
-  
 
       <ul className="postLista">
+      {console.log('o que é posts antes de ser mapeado: ',posts)}
         {posts.map((link, key) => (
 
           <li key={key} className="postContainer">
@@ -118,11 +102,10 @@ setarReducerListagem(acao){
 
 function mapStateToProps(state) {
 let posts;
-console.log('***************',posts)
 
 if (state.ReducerPosts.todosPosts.length){
 
-console.log('tem algum post')
+//console.log('tem algum post')
 if(state.ReducerPosts.ordenarPost === 'maior-score'){
   
   this.posts = [
@@ -160,12 +143,12 @@ else if(state.ReducerPosts.ordenarPost === 'mais-velha'){
   ]
 }//if
 
-console.log('antes de retornar ',this.posts)
+//console.log('antes de retornar ',this.posts)
 let temp={posts}
 return {temp }
 }else
 {
-  console.log('não tem post')
+  //console.log('não tem post')
 return { ...state }
 }
 

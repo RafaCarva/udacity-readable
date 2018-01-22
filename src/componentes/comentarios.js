@@ -17,7 +17,7 @@ class comentarios extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      postId: this.props.id,
+      postId: 0,
       mostrarEditarComentario: false,
       comentarioEditado: '',
       comentarioEditadoId: '',
@@ -26,6 +26,10 @@ class comentarios extends Component {
         if (a.voteScore > b.voteScore) {return -1;}
         return 0;})
     }
+  }
+
+  componentWillMount = () => {
+    this.setState({postId: this.props.id})
   }
 
   componentDidMount() {
@@ -61,6 +65,7 @@ class comentarios extends Component {
   }
 
   gravarComentarioAlterado(e) {
+    console.log('o comentário editado é: ',this.state.comentarioEditado)
     e.preventDefault();
     axios
       .put(`http://localhost:3001/comments/${this.state.comentarioEditadoId}`, {
@@ -71,9 +76,7 @@ class comentarios extends Component {
       .then(response => {
         this.props.inserirComentarioAlterado(response.data)
         //limpar o state
-        this.setState({ mostrarEditarComentario: false });
-        this.setState({ comentarioEditado: '' });
-        this.setState({ comentarioEditadoId: '' })
+        this.setState({ mostrarEditarComentario: false,  comentarioEditado: '', comentarioEditadoId: ''});
       })
       .catch(error => {
         console.log('ERRO', error);
@@ -125,10 +128,10 @@ class comentarios extends Component {
     const editarComentario = (id) => {
       console.log('id do comentário:',id)
       console.log('comentário editado id:',this.state.comentarioEditadoId)
-      if(this.state.comentarioEditadoId === id){
-      this.setState({ mostrarEditarComentario: !this.state.mostrarEditarComentario });
+      //if(this.state.comentarioEditadoId === id){
+      this.setState({ [`mostrarEditarComentario${id}`]: !this.state[`mostrarEditarComentario${id}`] });
       this.setState({ comentarioEditadoId: id });
-      }
+      //}
     }
 
     return (
@@ -148,7 +151,7 @@ class comentarios extends Component {
                   <button onClick={() => editarComentario(item.id)}>editar comentário</button><br />
                   <button onClick={() => excluirComentario(item.id)}>deletar comentário</button>
                   <span>
-                    {this.state.mostrarEditarComentario
+                    {this.state[`mostrarEditarComentario${item.id}`]
                       ?
                       <span>
                         <form onSubmit={this.gravarComentarioAlterado.bind(this)}>
