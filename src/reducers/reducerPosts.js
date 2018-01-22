@@ -1,11 +1,22 @@
 const getInitialState = {
   todosPosts: {},
-  postSendoVisualizado: []
+  postSendoVisualizado: [],
+  ordenarPost:'maior-score'
 };
+//possibilidades de 'oredenarPost'
+//maior-score, menor-score, mais-nova, mais-velha
+
 
 export default function (state = getInitialState, action) {
+  console.log("action payload do reducerPost---->",action.payload)
   switch (action.type) {
 
+    case 'SETAR-ORDENAR-POST':
+      return {
+        ...state,
+        ordenarPost: action.payload
+        
+      };
     case 'INSERIR-POST-DETALHADO':
       return {
         ...state,
@@ -44,10 +55,10 @@ export default function (state = getInitialState, action) {
         ...state,
         todosPosts: [
           ...state.todosPosts.sort((a, b) => {
-            if (a.voteScore > b.voteScore) {
+            if (a.voteScore < b.voteScore) {
               return 1;
             }
-            if (a.voteScore < b.voteScore) {
+            if (a.voteScore > b.voteScore) {
               return -1;
             }
             // a must be equal to b
@@ -60,10 +71,10 @@ export default function (state = getInitialState, action) {
         ...state,
         todosPosts: [
           ...state.todosPosts.sort((a, b) => {
-            if (a.voteScore < b.voteScore) {
+            if (a.voteScore > b.voteScore) {
               return 1;
             }
-            if (a.voteScore > b.voteScore) {
+            if (a.voteScore < b.voteScore) {
               return -1;
             }
             // a must be equal to b

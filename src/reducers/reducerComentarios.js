@@ -16,8 +16,12 @@ export default function (state = getInitialState, action) {
         ...state,
         todosComentarios:[...state.todosComentarios.filter(
           (elem, index, arr)=>elem.id !== action.payload.id
-        ), action.payload]
+        ), action.payload].sort((a, b) => {
+          if (a.voteScore < b.voteScore) {return 1;}
+          if (a.voteScore > b.voteScore) {return -1;}
+          return 0;})
       }
+
       case 'INSERIR-COMENTARIOS':
       return {...state,
         todosComentarios : action.payload

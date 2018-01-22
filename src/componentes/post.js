@@ -4,7 +4,14 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { deletarPosts, actionAlterarScore, inserirPostDetalhado, listarMaiorScore, listarMenorScore, listarMaisNova, listarMaisVelha } from '../actions/actionPosts'
+import { deletarPosts,
+   actionAlterarScore, 
+   inserirPostDetalhado, 
+   listarMaiorScore, 
+   listarMenorScore, 
+   listarMaisNova, 
+   listarMaisVelha,
+   actionSetarOrdenarPost } from '../actions/actionPosts'
 import { actionEditarPost } from '../actions/actionEditarPost'
 import './post.css'
 
@@ -43,6 +50,8 @@ const post = props => {
         props.inserirPostDetalhado(response.data);
         props.actionAlterarScore(response.data)
 
+  
+
       })
       .catch(error => {
         console.log('ERRO no alterarScore', error);
@@ -54,26 +63,36 @@ const post = props => {
     props.history.push('/editarPost');
   }//editarPost
 
-  const filtroDecScore = () => {
-    props.listarMaiorScore();
-  }
-  const filtroCreScore = () => {
-    props.listarMenorScore();
-  }
-  const filtroMaisNova = () => {
-    props.listarMaisNova();
-  }
-  const filtroMaisVelha = () => {
-    props.listarMaisVelha();
-  }
+/*
+setarReducerListagem(acao){
+  props.actionSetarOrdenarPost(acao);
+  return true;
+}
+*/
+
+  const filtrarPosts=(acao)=>{
+    //1° setar o valor no store
+    props.actionSetarOrdenarPost(acao);
+  
+    
+    //2º chamar uma action dependendo do valor que foi setado no score
+   /* props.ReducerPosts.ordenarPost === "menor-score" ? props.listarMenorScore() :
+    props.ReducerPosts.ordenarPost === "maior-score" ? props.listarMaiorScore() :
+    props.ReducerPosts.ordenarPost === "mais-nova" ? props.listarMaisNova() :
+    props.ReducerPosts.ordenarPost === "mais-velha" ? props.listarMaisVelha():
+    console.log('***ERRO: ReducerPosts.ordenarPost não tem um valor listavel.')
+  */}
+
+
 
   return (
     <div>
       Filtrar por
-      <button onClick={() => filtroDecScore()}>-score</button>
-      <button onClick={() => filtroCreScore()}>+score</button>
-      <button onClick={() => filtroMaisNova()}>+nova</button>
-      <button onClick={() => filtroMaisVelha()}>+velha</button>
+      <button onClick={() => filtrarPosts("menor-score")}>menor score</button>
+      <button onClick={() => filtrarPosts("maior-score")}>maior score</button>
+      <button onClick={() => filtrarPosts("mais-nova")}>mais nova</button>
+      <button onClick={() => filtrarPosts("mais-velha")}>mais velha</button><br />
+  
 
       <ul className="postLista">
         {posts.map((link, key) => (
@@ -98,7 +117,60 @@ const post = props => {
 };
 
 function mapStateToProps(state) {
-  return { ...state }
+let posts;
+console.log('***************',posts)
+
+if (state.ReducerPosts.todosPosts.length){
+
+console.log('tem algum post')
+if(state.ReducerPosts.ordenarPost === 'maior-score'){
+  
+  this.posts = [
+    state.ReducerPosts.todosPosts.sort((a, b) => {
+      if (a.voteScore < b.voteScore) {return 1;}
+      if (a.voteScore > b.voteScore) {return -1;}
+      return 0;})
+  ]
+}//if
+
+else if(state.ReducerPosts.ordenarPost === 'menor-score'){
+  this.posts = [
+    state.ReducerPosts.todosPosts.sort((a, b) => {
+      if (a.voteScore > b.voteScore) {return 1;}
+      if (a.voteScore < b.voteScore) {return -1;}
+      return 0;})
+  ]
+}//if 
+
+else if(state.ReducerPosts.ordenarPost === 'mais-nova'){
+  this.posts = [
+    state.ReducerPosts.todosPosts.sort((a, b) => {
+      if (a.timestamp < b.timestamp) {return 1;}
+      if (a.timestamp > b.timestamp) {return -1;}
+      return 0;})
+  ]
+}//if
+
+else if(state.ReducerPosts.ordenarPost === 'mais-velha'){
+  this.posts = [
+    state.ReducerPosts.todosPosts.sort((a, b) => {
+      if (a.timestamp > b.timestamp) {return 1;}
+      if (a.timestamp < b.timestamp) {return -1;}
+      return 0;})
+  ]
+}//if
+
+console.log('antes de retornar ',this.posts)
+let temp={posts}
+return {temp }
+}else
+{
+  console.log('não tem post')
+return { ...state }
+}
+
+
+
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators(
@@ -110,7 +182,8 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     listarMaiorScore,
     listarMenorScore,
     listarMaisNova,
-    listarMaisVelha
+    listarMaisVelha,
+    actionSetarOrdenarPost
   },
   dispatch
 );

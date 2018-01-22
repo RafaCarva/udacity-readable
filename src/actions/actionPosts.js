@@ -21,7 +21,10 @@ export function listarMenorScore(){
 }
 
 export function listarMaisNova(){
-  return{type:'LISTAR-MAIS-NOVA'}
+  return{
+    type:'LISTAR-MAIS-NOVA'
+   //type: new Promise((resolve,reject)=>{setTimeout(()=>{'LISTAR-MAIS-NOVA'},1000)})
+  }
 }
 
 export function listarMaisVelha(){
@@ -42,6 +45,12 @@ export function actionAlterarScore(e){
   //console.log('actionAlterarScore foi executado',e.data)
   return{
     type:'ALTERAR-SCORE',
+    payload:e
+  }
+}
+export function actionSetarOrdenarPost(e){
+  return{
+    type:'SETAR-ORDENAR-POST',
     payload:e
   }
 }

@@ -12,9 +12,6 @@ import {
 import {inserirPostDetalhado} from '../actions/actionPosts'
 import { bindActionCreators } from 'redux'
 
-
-//inserirPostDetalhado
-
 class comentarios extends Component {
 
   constructor(props) {
@@ -23,7 +20,11 @@ class comentarios extends Component {
       postId: this.props.id,
       mostrarEditarComentario: false,
       comentarioEditado: '',
-      comentarioEditadoId: ''
+      comentarioEditadoId: '',
+      todosComentariosOrdenados:this.props.ReducerComentarios.todosComentarios.sort((a, b) => {
+        if (a.voteScore < b.voteScore) {return 1;}
+        if (a.voteScore > b.voteScore) {return -1;}
+        return 0;})
     }
   }
 
@@ -34,8 +35,17 @@ class comentarios extends Component {
     })
       .then(response => {
         console.log('response de pegar todos os comentários ->', response.data)
+        
+        //ordenar os comentários
+        let comentariosOrdenados = response.data.sort((a, b) => {
+          if (a.voteScore < b.voteScore) {return 1;}
+          if (a.voteScore > b.voteScore) {return -1;}
+          return 0;})
+
         //setar o objeto de comentários vindo da api no STORE
-        this.props.inserirComentarios(response.data)
+        this.props.inserirComentarios(comentariosOrdenados)
+
+        this.setState({todosComentariosOrdenados:comentariosOrdenados})
 
       }).catch(error => { console.log('ERRO sobre comentários', error); })
   }
@@ -82,23 +92,18 @@ class comentarios extends Component {
           this.props.deletarComentario(id);
 
           //depois de deletar o comentário, repopular o store com o post a ser dettalhado
-          //*****
           axios.get(`http://localhost:3001/posts/${this.state.postId}`, {
             headers: { Authorization: 'whatever-you-want' },
           })
             .then(response => {
               //por o post no store
               this.props.inserirPostDetalhado(response.data)
-              //por o post no state
-              //this.setState({postSendoVisualizado:response.data});
             })
             .catch(error => { console.log('ERRO', error); });
-
         })
         .catch(error => {
           console.log('ERRO no delete do post', error);
         });
-
     }//excluirComentario
 
     const votarComentario = (id, acao) => {
@@ -118,8 +123,12 @@ class comentarios extends Component {
     }//votarComentario
 
     const editarComentario = (id) => {
+      console.log('id do comentário:',id)
+      console.log('comentário editado id:',this.state.comentarioEditadoId)
+      if(this.state.comentarioEditadoId === id){
       this.setState({ mostrarEditarComentario: !this.state.mostrarEditarComentario });
       this.setState({ comentarioEditadoId: id });
+      }
     }
 
     return (

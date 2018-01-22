@@ -1,3 +1,11 @@
 README
 Instruções para baixar e rodar a API.
 
+Listagem
+Agora a ordenação se mantém de acordo com o botão clicado.
+
+página de categoria componentizada.
+
+listagem na página de categoria funcionando.
+
+comentários no post detalhado se mantém pela ordem de voteScore.
