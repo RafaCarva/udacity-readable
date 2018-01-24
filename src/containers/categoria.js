@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 //componentes
 import Posts from '../componentes/post';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {ordenarPosts} from '../utils/ordenarPosts'
+import PageNotFound from '../componentes/pageNotFound';
 
 class categoria extends Component {
   constructor(props) {
@@ -33,11 +34,14 @@ componentWillMount(){
 console.log('o que vai ser enviado é:',this.state.postsDaCategoria)
     return (
       <div>
-        <Link to="/"> Voltar</Link>
         <h1>{this.props.ReducerCategorias.categoriaAtual}</h1>
-
+        {this.props.posts ?
+        <Fragment>
+        <Link to="/"> Voltar</Link>
         <Posts posts={this.props.posts.filter(item => item.category === this.props.ReducerCategorias.categoriaAtual)}/>
-
+        </Fragment> : 
+        <PageNotFound/>
+        }
       </div>
     );
   }

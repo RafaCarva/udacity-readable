@@ -1,7 +1,13 @@
 A API que o aplicativo consome deve ser baixada aqui:
 https://github.com/udacity/reactnd-project-readable-starter
 
-Para rodar a API entre na raiz do projeto e:
+Em seguida, pelo powershell navegue até a raiz do projeto e:
+### cd api-server
+
+Dentro da pasta api-server, instale as dependências do projeto:
+### yarn install
+
+Para rodar a API, estando na pasta 'pastaRaiz/api-server':
 ### node server
 
 Para rodar o aplicativo, basta clona-lo, em seguida:<br>

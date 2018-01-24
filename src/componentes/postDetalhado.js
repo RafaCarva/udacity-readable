@@ -9,6 +9,8 @@ import { inserirComentarios, inserirNovoComentarios } from '../actions/actionCom
 import { bindActionCreators } from 'redux'
 import { PulseLoader } from 'halogenium';
 
+import PageNotFound from './pageNotFound'
+
 class postDetalhado extends Component {
 
   constructor(props) {
@@ -17,14 +19,12 @@ class postDetalhado extends Component {
       id: '',
       autorComentario: '',
       msgComentario: '',
-      //postSendoVisualizado:''
+      exibirPost:true
     }
   }
 
   componentWillMount() {
-    this.setState({ id: this.props.match.params.id });
-    //this.setState({ postSendoVisualizado: this.props.ReducerPosts.postSendoVisualizado});
-    //console.log('-------------->',this.state.postSendoVisualizado)
+   this.setState({ id: this.props.match.params.id });
   }
 
   componentDidMount() {
@@ -35,11 +35,8 @@ class postDetalhado extends Component {
       .then(response => {
         //por o post no store
         this.props.inserirPostDetalhado(response.data)
-
-        //por o post no state
-        //this.setState({postSendoVisualizado:response.data});
       })
-      .catch(error => { console.log('ERRO', error); });
+      .catch(error => {this.props.history.push('/pagenotfound'); console.log('ERRO', error); });
   }
 
   alterouAutor(e) {
@@ -68,10 +65,7 @@ class postDetalhado extends Component {
 
         //gravar comentário no store
         this.props.inserirNovoComentarios(response.data)
-        //this.setState({ postSendoVisualizado: response.data });
-
-        //TODO inserir o post no reducer: ReducerPosts > postSendoVisualizado
-
+        
         axios.get(`http://localhost:3001/posts/${this.state.id}`, {
           headers: { Authorization: 'whatever-you-want' },
         })
@@ -79,7 +73,11 @@ class postDetalhado extends Component {
             //por o post no store
             this.props.inserirPostDetalhado(response.data)
           })
-          .catch(error => { console.log('ERRO', error); });
+          .catch(
+            error => { console.log('ERRO no get de graavar comentário', error);
+            //this.props.history.push('/pagenotfound')
+             }
+          );
 
       })
       .catch(error => {
@@ -88,27 +86,32 @@ class postDetalhado extends Component {
   }//gravar post editado
 
   render() {
-    //console.log('-------------->',this.state.postSendoVisualizado)
+
+    const { postSendoVisualizado } = this.props.ReducerPosts;
+
+/*    if (Object.keys(postSendoVisualizado).length === 0){
+     console.log('------------>',this.props)
+     return null
+    }
+    */
+ 
     return (
       <div>
-        {this.props.ReducerComentarios.todosComentarios
+        {(this.props.ReducerComentarios.todosComentarios && Object.keys(postSendoVisualizado).length > 0)
           ?
           <div>
             <h1>post detalhado</h1>
             <Post posts={[this.props.ReducerPosts.postSendoVisualizado]} />
             <Comentarios id={this.state.id} />
-
             <form onSubmit={this.gravarComentario.bind(this)}>
               autor:<input type="text" onChange={this.alterouAutor.bind(this)} /><br />
               msg: <input type="text" onChange={this.alterouMsg.bind(this)} /><br />
               <button type="submit">Gravar Comentário</button>
             </form>
             <Link to="/">Voltar</Link>
-          </div>
+          </div>  
           :
-          <div>
-            <PulseLoader color="#26A65B" size="16px" margin="4px" />
-          </div>
+          <PageNotFound />   
         }
       </div>
     );
@@ -125,5 +128,3 @@ const mapDispatchToProps = dispatch => bindActionCreators(
   }, dispatch
 );
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(postDetalhado));
-
-

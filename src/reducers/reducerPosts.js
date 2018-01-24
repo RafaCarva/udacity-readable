@@ -6,7 +6,6 @@ const getInitialState = {
 //possibilidades de 'oredenarPost'
 //maior-score, menor-score, mais-nova, mais-velha
 
-
 export default function (state = getInitialState, action) {
   console.log("action payload do reducerPost---->",action.payload)
   switch (action.type) {
