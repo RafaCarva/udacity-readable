@@ -35,7 +35,7 @@ class Home extends Component {
         this.props.inserirCategorias(response.data);
       })
       .catch(error => {
-        console.log('ERRO', error);
+        console.log('ERRO ao dar get nas categorias da api', error);
       });
 
     // pegar os posts da api e por no store

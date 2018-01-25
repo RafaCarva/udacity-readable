@@ -9,7 +9,7 @@ import {
   alterarVotoComentario,
   inserirComentarioAlterado
 } from '../actions/actionComentarios'
-import {inserirPostDetalhado} from '../actions/actionPosts'
+import { inserirPostDetalhado } from '../actions/actionPosts'
 import { bindActionCreators } from 'redux'
 
 class comentarios extends Component {
@@ -21,15 +21,16 @@ class comentarios extends Component {
       mostrarEditarComentario: false,
       comentarioEditado: '',
       comentarioEditadoId: '',
-      todosComentariosOrdenados:this.props.ReducerComentarios.todosComentarios.sort((a, b) => {
-        if (a.voteScore < b.voteScore) {return 1;}
-        if (a.voteScore > b.voteScore) {return -1;}
-        return 0;})
+      todosComentariosOrdenados: this.props.ReducerComentarios.todosComentarios.sort((a, b) => {
+        if (a.voteScore < b.voteScore) { return 1; }
+        if (a.voteScore > b.voteScore) { return -1; }
+        return 0;
+      })
     }
   }
 
   componentWillMount = () => {
-    this.setState({postId: this.props.id})
+    this.setState({ postId: this.props.id })
   }
 
   componentDidMount() {
@@ -39,17 +40,18 @@ class comentarios extends Component {
     })
       .then(response => {
         console.log('response de pegar todos os comentários ->', response.data)
-        
+
         //ordenar os comentários
         let comentariosOrdenados = response.data.sort((a, b) => {
-          if (a.voteScore < b.voteScore) {return 1;}
-          if (a.voteScore > b.voteScore) {return -1;}
-          return 0;})
+          if (a.voteScore < b.voteScore) { return 1; }
+          if (a.voteScore > b.voteScore) { return -1; }
+          return 0;
+        })
 
         //setar o objeto de comentários vindo da api no STORE
         this.props.inserirComentarios(comentariosOrdenados)
 
-        this.setState({todosComentariosOrdenados:comentariosOrdenados})
+        this.setState({ todosComentariosOrdenados: comentariosOrdenados })
 
       }).catch(error => { console.log('ERRO sobre comentários', error); })
   }
@@ -65,7 +67,7 @@ class comentarios extends Component {
   }
 
   gravarComentarioAlterado(e) {
-    console.log('o comentário editado é: ',this.state.comentarioEditado)
+    console.log('o comentário editado é: ', this.state.comentarioEditado)
     e.preventDefault();
     axios
       .put(`http://localhost:3001/comments/${this.state.comentarioEditadoId}`, {
@@ -76,7 +78,7 @@ class comentarios extends Component {
       .then(response => {
         this.props.inserirComentarioAlterado(response.data)
         //limpar o state
-        this.setState({ mostrarEditarComentario: false,  comentarioEditado: '', comentarioEditadoId: ''});
+        this.setState({ mostrarEditarComentario: false, comentarioEditado: '', comentarioEditadoId: '' });
       })
       .catch(error => {
         console.log('ERRO', error);
@@ -126,8 +128,8 @@ class comentarios extends Component {
     }//votarComentario
 
     const editarComentario = (id) => {
-      console.log('id do comentário:',id)
-      console.log('comentário editado id:',this.state.comentarioEditadoId)
+      console.log('id do comentário:', id)
+      console.log('comentário editado id:', this.state.comentarioEditadoId)
       //if(this.state.comentarioEditadoId === id){
       this.setState({ [`mostrarEditarComentario${id}`]: !this.state[`mostrarEditarComentario${id}`] });
       this.setState({ comentarioEditadoId: id });
@@ -182,6 +184,13 @@ function mapStateToProps(state) {
   return { ...state }
 }
 const mapDispatchToProps = dispatch => bindActionCreators(
-  { inserirComentarios, limparComentarios, deletarComentario, alterarVotoComentario, inserirComentarioAlterado,inserirPostDetalhado }, dispatch
+  {
+    inserirComentarios,
+    limparComentarios,
+    deletarComentario,
+    alterarVotoComentario,
+    inserirComentarioAlterado,
+    inserirPostDetalhado
+  }, dispatch
 );
 export default connect(mapStateToProps, mapDispatchToProps)(comentarios);

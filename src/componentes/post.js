@@ -4,14 +4,16 @@ import axios from 'axios';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { deletarPosts,
-   actionAlterarScore, 
-   inserirPostDetalhado, 
-   listarMaiorScore, 
-   listarMenorScore, 
-   listarMaisNova, 
-   listarMaisVelha,
-   actionSetarOrdenarPost } from '../actions/actionPosts'
+import {
+  deletarPosts,
+  actionAlterarScore,
+  inserirPostDetalhado,
+  listarMaiorScore,
+  listarMenorScore,
+  listarMaisNova,
+  listarMaisVelha,
+  actionSetarOrdenarPost
+} from '../actions/actionPosts'
 import { actionEditarPost } from '../actions/actionEditarPost'
 import './post.css'
 
@@ -51,7 +53,7 @@ const post = props => {
         props.inserirPostDetalhado(response.data);
         props.actionAlterarScore(response.data)
 
-  
+
 
       })
       .catch(error => {
@@ -64,10 +66,10 @@ const post = props => {
     props.history.push('/editarPost');
   }//editarPost
 
-  const filtrarPosts=(acao)=>{
+  const filtrarPosts = (acao) => {
     //1° setar o valor no store
     props.actionSetarOrdenarPost(acao);
-}
+  }
 
   return (
     <div>
@@ -78,7 +80,7 @@ const post = props => {
       <button onClick={() => filtrarPosts("mais-velha")}>mais velha</button><br />
 
       <ul className="postLista">
-      {console.log('o que é posts antes de ser mapeado: ',posts)}
+        {console.log('o que é posts antes de ser mapeado: ', posts)}
         {posts.map((link, key) => (
 
           <li key={key} className="postContainer">
@@ -101,59 +103,59 @@ const post = props => {
 };
 
 function mapStateToProps(state) {
-let posts;
+  let posts;
 
-if (state.ReducerPosts.todosPosts.length){
+  if (state.ReducerPosts.todosPosts.length) {
 
-//console.log('tem algum post')
-if(state.ReducerPosts.ordenarPost === 'maior-score'){
-  
-  this.posts = [
-    state.ReducerPosts.todosPosts.sort((a, b) => {
-      if (a.voteScore < b.voteScore) {return 1;}
-      if (a.voteScore > b.voteScore) {return -1;}
-      return 0;})
-  ]
-}//if
+    //console.log('tem algum post')
+    if (state.ReducerPosts.ordenarPost === 'maior-score') {
 
-else if(state.ReducerPosts.ordenarPost === 'menor-score'){
-  this.posts = [
-    state.ReducerPosts.todosPosts.sort((a, b) => {
-      if (a.voteScore > b.voteScore) {return 1;}
-      if (a.voteScore < b.voteScore) {return -1;}
-      return 0;})
-  ]
-}//if 
+      this.posts = [
+        state.ReducerPosts.todosPosts.sort((a, b) => {
+          if (a.voteScore < b.voteScore) { return 1; }
+          if (a.voteScore > b.voteScore) { return -1; }
+          return 0;
+        })
+      ]
+    }//if
 
-else if(state.ReducerPosts.ordenarPost === 'mais-nova'){
-  this.posts = [
-    state.ReducerPosts.todosPosts.sort((a, b) => {
-      if (a.timestamp < b.timestamp) {return 1;}
-      if (a.timestamp > b.timestamp) {return -1;}
-      return 0;})
-  ]
-}//if
+    else if (state.ReducerPosts.ordenarPost === 'menor-score') {
+      this.posts = [
+        state.ReducerPosts.todosPosts.sort((a, b) => {
+          if (a.voteScore > b.voteScore) { return 1; }
+          if (a.voteScore < b.voteScore) { return -1; }
+          return 0;
+        })
+      ]
+    }//if 
 
-else if(state.ReducerPosts.ordenarPost === 'mais-velha'){
-  this.posts = [
-    state.ReducerPosts.todosPosts.sort((a, b) => {
-      if (a.timestamp > b.timestamp) {return 1;}
-      if (a.timestamp < b.timestamp) {return -1;}
-      return 0;})
-  ]
-}//if
+    else if (state.ReducerPosts.ordenarPost === 'mais-nova') {
+      this.posts = [
+        state.ReducerPosts.todosPosts.sort((a, b) => {
+          if (a.timestamp < b.timestamp) { return 1; }
+          if (a.timestamp > b.timestamp) { return -1; }
+          return 0;
+        })
+      ]
+    }//if
 
-//console.log('antes de retornar ',this.posts)
-let temp={posts}
-return {temp }
-}else
-{
-  //console.log('não tem post')
-return { ...state }
-}
+    else if (state.ReducerPosts.ordenarPost === 'mais-velha') {
+      this.posts = [
+        state.ReducerPosts.todosPosts.sort((a, b) => {
+          if (a.timestamp > b.timestamp) { return 1; }
+          if (a.timestamp < b.timestamp) { return -1; }
+          return 0;
+        })
+      ]
+    }//if
 
-
-
+    //console.log('antes de retornar ',this.posts)
+    let temp = { posts }
+    return { temp }
+  } else {
+    //console.log('não tem post')
+    return { ...state }
+  }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators(
